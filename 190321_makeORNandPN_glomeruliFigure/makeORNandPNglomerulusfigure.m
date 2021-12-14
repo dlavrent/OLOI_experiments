@@ -42,6 +42,8 @@ clusterInfoU=clusterInfoU(inds);
 grnResponse=grnResponse(:,inds,:);
 
 
+% FIG 1e
+% figure 1
 showClusters(clusterVolU,clusterInfoU,clusterLabels)
 axis off
 
@@ -83,7 +85,8 @@ clusterVolU=clusterVolU(inds);
 clusterInfoU=clusterInfoU(inds);
 grnResponse=grnResponse(:,inds,:);
 
-
+% FIG 1e
+% figure 2
 showClusters(clusterVolU,clusterInfoU,clusterLabels)
 axis off
 
@@ -103,7 +106,7 @@ end
 pncolor=[0 0.8 0];
 orncolor=[0.9 0 0.7];
 
-figure
+figure %3
 plot(1.2*(1:20),squeeze(nanmean(grnResponseO(:,1,:),1)),'Color',orncolor,'LineWidth',3)
 hold on
 plot(1.2*(1:20),squeeze(nanmean(grnResponse(:,1,:),1)),'Color',pncolor,'LineWidth',3)
@@ -115,7 +118,7 @@ box off
 set(gca,'FontSize',15)
 
 
-figure
+figure %4
 plot(1.2*(1:20),squeeze(grnResponse(2,1,:)),'Color',[0.4 0.3 0.8],'LineWidth',3)
 hold on
 plot(1.2*(1:20),squeeze(grnResponse(11,1,:)),'--','Color',[0.8 0.3 0.2],'LineWidth',3)
@@ -127,7 +130,7 @@ box off
 set(gca,'FontSize',15)
 
 
-figure
+figure %5
 plot(1.2*(1:20),squeeze(grnResponse(6,1,:)),'Color',[0.8 0.4 0.2],'LineWidth',3)
 hold on
 plot(1.2*(1:20),squeeze(grnResponse(6,4,:)),'--','Color',[0.3 0.8 0.4],'LineWidth',3)
