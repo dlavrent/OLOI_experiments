@@ -4,9 +4,11 @@ clear all
 rng('default')
 
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/test';
+load analysis_dir_path
+
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/test');
 trainedModel = load('trainDataModel.mat');
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -248,7 +250,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -281,7 +283,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -386,7 +388,7 @@ msize=10;
 lsize=3;
 %
 % % plot average across all odors for flies with both lobe data
-figure
+figure %3
 hold on
 
 % plot(0,0,'Marker',m{1},'Color','k')
@@ -414,7 +416,7 @@ xlabel('PC 1 Score')
 ylabel('PC 2 Score')
 set(gca,'FontSize',15)
 
-figure
+figure %4
 hold on
 for j=1:(flyNum)
     
@@ -454,7 +456,7 @@ acrossleft=acrossLLobe;
 acrossright=acrossRLobe;
 acrossall=acrossAllLobe;
 
-figure
+figure %5
 boxplot([withinleft(:) withinright(:) withinacross(:) acrossleft(:) acrossright(:) acrossall(:)])
 ylabel('Distance in Coding Space')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -536,7 +538,7 @@ for i=1:flyNum
 end
 linmodel=trainedModel.linmodelPrecorrected;
 myprediction=predict(linmodel,nactivity);
-figure
+figure %6
 plot(myprediction,flyTruePref,'.','Color',pcolor,'LineWidth',3)
 hold on
 xlabel('Predicted Preference')
@@ -549,8 +551,8 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-
-figure
+% FIG 1q
+figure %7
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on

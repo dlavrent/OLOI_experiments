@@ -8,9 +8,11 @@ clear all
 %close all
 rng('default')
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/train';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/train');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -432,12 +434,14 @@ end
 % box off
 % set(gca,'FontSize',15)
 
+% figure 1
 violinPlot(testR2',pcolor)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 0 1])
 box off
 set(gca,'FontSize',15)
+% figure 2
 violinPlot(testR2shuffled',pcolor)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -449,7 +453,8 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-figure
+% FIG 1o PN OCT-MCH preference prediction
+figure %3
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
@@ -457,7 +462,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 axis([0 highestPCtouse+1 0 0.75])
 set(gca,'FontSize',15)
-figure
+figure %4
 boxplot(testR2shuffledt(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')

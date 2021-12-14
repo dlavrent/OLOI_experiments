@@ -1,6 +1,10 @@
 clear all
 close all
 
+load analysis_dir_path
+data_folder = fullfile(analysis_dir_path, 'fly_behavior\PAPERFIGURE_oct_vs_air_persistence\persistence_3h');
+cd(data_folder)
+
 prefix = 'oct_air';
 nbatches = 4;
 load([prefix '_threeHourPositions.mat'])
@@ -80,7 +84,8 @@ tv(todelete)=[];
 t(todelete)=[];
 
 [r p] = corrcoef(z-zp,t-tp);
-figure;
+% SUP FIG 1b
+figure; %1
 plot(z-zp,t-tp,'k.','LineWidth',3)
 text(0, 0, ['r = ' num2str(r(1,2))],'FontSize',15)
 xlabel('occupancy (t = 0 h)')

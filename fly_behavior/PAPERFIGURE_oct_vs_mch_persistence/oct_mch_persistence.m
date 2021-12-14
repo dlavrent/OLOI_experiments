@@ -46,7 +46,8 @@ hour3all([missing1 missing2])=[];
 hour0allPreodor([missing1 missing2])=[];
 hour3allPreodor([missing1 missing2])=[];
 
-figure
+% SUP FIG 1d
+figure %1
 plot(hour0all,hour3all,'k.','LineWidth',3)
 [r p1]=corrcoef(hour0all,hour3all);
 text(0.1,0.5,['r = ' num2str(r(1,2),'%02.3f')],'FontSize',15)
@@ -106,7 +107,8 @@ hour24all([missing1 missing2])=[];
 hour0allPreodor([missing1 missing2])=[];
 hour24allPreodor([missing1 missing2])=[];
 
-figure
+% SUP FIG 1e
+figure %2
 plot(hour0all,hour24all,'k.','LineWidth',2,'MarkerSize',15)
 [r p1]=corrcoef(hour0all,hour24all);
 text(0.1,0.5,['r = ' num2str(r(1,2),'%02.3f')],'FontSize',15)

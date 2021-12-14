@@ -4,11 +4,10 @@ close all
 rng('default')
 
 load ORN_PN_colors
-%manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/manuallyLabelled_added181210';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/yokedControlExperiment_yokedControlFlies');
 
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/yokedControlExperiment_yokedControlFlies';
-
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -179,9 +178,9 @@ mycmap=distinguishable_colors(flyNum);
 
 %% load experimental flies
 
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/yokedControlExperiment_experimentalFlies';
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/yokedControlExperiment_experimentalFlies');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -404,7 +403,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -474,7 +473,7 @@ opt.Display='iter';
 [COEFFE, SCOREE, LATENTE, TSQUAREDE, EXPLAINEDE] = pca(responsesNoResponseRemovedE','Options',opt);
 
 
-figure;
+figure; %2
 plot(cumsum(EXPLAINEDE),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -549,7 +548,7 @@ for i=1:flyNum
 end
 linmodel=trainedModel.linmodelPrecorrected;
 myprediction=predict(linmodel,nactivity);
-figure
+figure %3
 plot(myprediction,flyTruePref,'.','Color',pcolor,'LineWidth',3)
 hold on
 xlabel('Predicted Preference')
@@ -562,8 +561,8 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-
-figure
+% FIG 2k
+figure %4
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on
@@ -647,7 +646,7 @@ for i=1:flyNumE
 end
 linmodel=trainedModel.linmodelPrecorrected;
 myprediction=predict(linmodel,nactivity);
-figure
+figure %5
 plot(myprediction,flyTruePref,'.','Color',pcolor,'LineWidth',3)
 hold on
 xlabel('Predicted Preference')
@@ -661,7 +660,7 @@ set(gca,'FontSize',15)
 corrcoef(myprediction,flyTruePref)
 
 
-figure
+figure %6
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on

@@ -3,9 +3,11 @@ clear all
 close all
 
 %manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/manuallyLabelled_allThrough181210';
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/allData';
+load analysis_dir_path
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/allData');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -294,9 +296,9 @@ set(gca,'FontSize',15)
 
 
 % analyze orn
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/ORN_analysis/ornflies';
+manualLabelHome=fullfile(analysis_dir_path, '/ORN_analysis/ornflies');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);

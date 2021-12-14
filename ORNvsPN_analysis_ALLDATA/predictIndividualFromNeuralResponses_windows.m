@@ -8,9 +8,10 @@ load ORN_PN_COLORS
 
 rng('default')
 
-manualLabelHome='C:\Users\mac0456\Dropbox (Harvard University)\flyimaging\analysis\ORNvsPN_analysis_ALLDATA\pn_alldata';
+load analysis_dir_path
 
-publishedOdorPath='C:\Users\mac0456\Documents\mattFunctionsLocal\odorpanelResponsesDoOR\odorPanel_12\odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA\pn_alldata');
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -263,9 +264,9 @@ end
 % now for orn
 rng('default')
 
-manualLabelHome='C:\Users\mac0456\Dropbox (Harvard University)\flyimaging\analysis\ORNvsPN_analysis_ALLDATA\orn_alldata';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA\orn_alldata');
 
-publishedOdorPath='C:\Users\mac0456\Documents\mattFunctionsLocal\odorpanelResponsesDoOR\odorPanel_12\odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);

@@ -9,9 +9,10 @@ allColorMaps
 
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/pn_alldata';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/pn_alldata');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -274,9 +275,10 @@ gh146acc_shuff = odorpredacc_shuff;
 % now for orn
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/orn_alldata';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/orn_alldata');
+
+%publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -501,7 +503,7 @@ end
 orcoacc = odorpredacc;
 orcoacc_shuff = odorpredacc_shuff;
 
-
+% SUP FIG 10d
 figure
 hold on
 plot(1.2*(1:20),orcoacc,'-','Color',ocolor,'LineWidth',3,'MarkerSize',15)
@@ -519,16 +521,16 @@ box on
 
 % load PNs
 clear all
-close all
+%close all
 
 load ORN_PN_COLORS
 allColorMaps
 
 rng('default')
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/pn_alldata');
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/pn_alldata';
-
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -775,9 +777,9 @@ godorpredacc=(godorpredacc+classact)/2;
 % now for orn
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/orn_alldata';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/orn_alldata');
+
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);

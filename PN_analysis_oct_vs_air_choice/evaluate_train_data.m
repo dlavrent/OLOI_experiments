@@ -4,9 +4,12 @@ clear all
 rng('default')
 
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/PN_analysis_oct_vs_air_choice/train';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+load analysis_dir_path
+
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/train');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -235,7 +238,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -268,7 +271,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -373,7 +376,7 @@ msize=10;
 lsize=3;
 %
 % % plot average across all odors for flies with both lobe data
-figure
+figure %3
 hold on
 
 % plot(0,0,'Marker',m{1},'Color','k')
@@ -401,7 +404,7 @@ xlabel('PC 1 Score')
 ylabel('PC 2 Score')
 set(gca,'FontSize',15)
 
-figure
+figure %4
 hold on
 for j=1:(flyNum)
     
@@ -441,7 +444,7 @@ acrossleft=acrossLLobe;
 acrossright=acrossRLobe;
 acrossall=acrossAllLobe;
 
-figure
+figure %5
 boxplot([withinleft(:) withinright(:) withinacross(:) acrossleft(:) acrossright(:) acrossall(:)])
 ylabel('Distance in Coding Space')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -466,7 +469,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %6
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -482,7 +485,7 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %7
 plot(myprediction,flyTruePref,'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
@@ -499,8 +502,8 @@ axis([-.6 .3 -.6 .3])
 axis square
 linmodel
 
-
-figure
+% FIG 1l
+figure %8
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
@@ -527,7 +530,7 @@ axis square
 beta=linmodel.Coefficients.Estimate;
 
 PCContribution=COEFF(:,pcstouse);
-figure;
+figure; %9
 plot(PCContribution,'*','LineWidth',2,'MarkerSize',8)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -556,7 +559,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %10
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -572,7 +575,7 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %11
 plot(myprediction,flyTruePref,'o','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
@@ -814,12 +817,14 @@ end
 % box off
 % set(gca,'FontSize',15)
 
+% figure 12
 violinPlot(testR2',pcolor)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 0 1])
 box off
 set(gca,'FontSize',15)
+% figure 13
 violinPlot(testR2shuffled',pcolor)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -831,7 +836,8 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-figure
+% FIG 1k PN OCT-AIR preference prediction
+figure %14
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
@@ -839,7 +845,7 @@ axis([0 highestPCtouse+1 0 0.75])
 set(gca,'FontSize',15)
 set(gca,'xtick','')
 set(gca,'ytick','')
-figure
+figure %15
 boxplot(testR2shuffledt(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -1120,14 +1126,14 @@ myr2shuffled=(testRshuffled.^2').*sign(testRshuffled');
 % set(gca,'FontSize',15)
 % 
 % 
-figure
+figure %16
 distributionPlot(myr2,'histOpt',1,'colormap',pcolor,'showMM',0)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 -1 1])
 box off
 set(gca,'FontSize',15)
-figure
+figure %17
 distributionPlot(myr2shuffled,'histOpt',1,'colormap',pcolor,'showMM',0)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -1135,13 +1141,14 @@ axis([0 highestPCtouse+1 -1 1])
 box off
 set(gca,'FontSize',15)
 
-
+% figure 18
 violinPlot(myr2,pcolor)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 -1 1])
 box off
 set(gca,'FontSize',15)
+% figure 19
 violinPlot(myr2shuffled,pcolor)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')

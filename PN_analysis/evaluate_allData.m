@@ -3,9 +3,12 @@ clear all
 %close all
 
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/allData';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+load analysis_dir_path
+
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/train');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -243,7 +246,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -276,7 +279,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -380,7 +383,7 @@ msize=10;
 lsize=3;
 %
 % % plot average across all odors for flies with both lobe data
-figure
+figure %3
 hold on
 
 % plot(0,0,'Marker',m{1},'Color','k')
@@ -408,7 +411,7 @@ xlabel('PC 1 Score')
 ylabel('PC 2 Score')
 set(gca,'FontSize',15)
 
-figure
+figure %4
 hold on
 for j=1:(flyNum)
     
@@ -448,7 +451,7 @@ acrossleft=acrossLLobe;
 acrossright=acrossRLobe;
 acrossall=acrossAllLobe;
 
-figure
+figure %5
 boxplot([withinleft(:) withinright(:) withinacross(:) acrossleft(:) acrossright(:) acrossall(:)])
 ylabel('Distance in Coding Space')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -475,7 +478,7 @@ ally=behaviorOcc';
 
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %6
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -493,7 +496,10 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+
+% FIG 1p when using PN_analysis/train as manualLabelHome 
+% FIG 2g inset
+figure %7
 plot((myprediction-mean(myprediction))/std(myprediction),(flyTruePref-mean(flyTruePref))/std(flyTruePref),'.','Color',pcolor,'LineWidth',2)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -508,7 +514,7 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 PCContribution=COEFF(:,pcstouse);
-figure;
+figure; %8
 plot(PCContribution,'.','Color',pcolor,'LineWidth',2,'MarkerSize',5)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -528,8 +534,8 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 currpc=COEFF(:,pcstouse);
 
-
-figure;
+% FIG 2g loadings
+figure; %9
 bar(PCContribution,'FaceColor',pcolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -551,7 +557,8 @@ set(gca,'FontSize',15)
 octmchselect=ones(1,65);
 octmchselect([14:39 53:65])=0;
 octmchselect(40:52)=-1;
-figure;
+% FIG 2h
+figure; %10
 bar(octmchselect,'FaceColor',pcolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -573,7 +580,7 @@ set(gca,'FontSize',15)
 
 %nyidalur=interp1([1 128 129 256],[1 0 1; .3091 .2303 .3091; .2306 .3082 .2306; 0 1 0],1:256);
 skalafell=interp1([1 128 129 256],[1 0 1; 1 .9921 1; .9921 1 .9921; 0 1 0],1:256);
-figure
+figure %11
 scatter(flypc(:,1),flypc(:,2),50,flyTruePref,'filled')
 colormap(skalafell)
 box on
@@ -605,7 +612,7 @@ linmodelL=fitlm(nactivityL,flyTruePrefL);
 linmodelR=fitlm(nactivityR,flyTruePrefR);
 mypredictionL=predict(linmodelL,nactivityL);
 mypredictionR=predict(linmodelR,nactivityR);
-figure
+figure %12
 plot(mypredictionL,flyTruePrefL,'*','LineWidth',3,'Markersize',10)
 hold on
 plot(mypredictionR,flyTruePrefR,'p','LineWidth',3,'Markersize',10)
@@ -645,7 +652,7 @@ linmodel=fitlm([nactivityL; nactivityR],[flyTruePrefL flyTruePrefR]);
 
 myprediction=predict(linmodel,[nactivityL; nactivityR]);
 
-figure
+figure %13
 plot(myprediction,[flyTruePrefL flyTruePrefR],'*','LineWidth',3,'Markersize',10)
 
 % for i=1:flyNum
@@ -671,7 +678,7 @@ ally=behaviorOcc';
 
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %14
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -687,14 +694,16 @@ for i=1:flyNum
 end
 
 % plot histogram of DM2 - DC2
-figure
+% SUP FIG 12e
+figure %15
 histogram(nactivity,10)
 ylabel('# flies')
 xlabel('DM2 - DC2 (% df/f difference)')
 axis square
 
 % plot raw values
-figure
+% SUP FIG 12f
+figure %16
 plot(nactivity,flyTruePref,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% df/f difference)')
 ylabel('measured preference')
@@ -702,7 +711,7 @@ axis square
 
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %17
 plot(myprediction,flyTruePref,'ko','LineWidth',3)
 for i=1:flyNum
    hold on
@@ -715,8 +724,8 @@ box off
 linmodel
 
 
-
-figure
+% FIG 2i
+figure %18
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on

@@ -3,9 +3,10 @@ clear all
 %close all
 rng('default')
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORN_analysis_oct_vs_air_choice/ornflies_oct_vs_air';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'ORN_analysis_oct_vs_air_choice/ornflies_oct_vs_air');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -220,7 +221,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -253,7 +254,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -272,7 +273,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %3
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -290,7 +291,7 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %4
 plot(myprediction,flyTruePref,'.','Color',ocolor,'LineWidth',3)
 [r p]=corrcoef(myprediction,flyTruePref);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -303,8 +304,8 @@ axis([-.75 0.1 -.75 0.1])
 axis square
 linmodel
 
-
-figure
+% FIG 1n, FIG 2d inset
+figure %5
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',2)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -321,7 +322,7 @@ axis square
 beta=linmodel.Coefficients.Estimate;
 
 PCContribution=COEFF(:,pcstouse);
-figure;
+figure; %6
 plot(PCContribution,'.','Color',ocolor,'LineWidth',2,'MarkerSize',5)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -339,8 +340,8 @@ axis([0 66 -.025 .35])
 set(gca,'FontSize',15)
 currpc=PCContribution;
 
-
-figure;
+% FIG 2d loadings
+figure; %7
 bar(PCContribution,'FaceColor',ocolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -359,7 +360,8 @@ ylabel('PC 1 loadings')
 axis([0 66 -.05 .32])
 set(gca,'FontSize',15)
 
-figure;
+% FIG 2e interpreted loadings
+figure; %8
 bar(ones(1,65),'FaceColor',ocolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -379,7 +381,7 @@ axis([0 66 -.05 1.2])
 set(gca,'FontSize',15)
 
 gbcm=interp1([1 256],[0 0 0; 0 1 0],1:256);
-figure
+figure %9
 scatter(flypc(:,1),flypc(:,2),50,flyTruePref,'filled')
 colormap(gbcm)
 box on
@@ -401,7 +403,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %10
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -417,14 +419,16 @@ for i=1:flyNum
 end
 
 % plot histogram
-figure
+% SUP FIG 12c
+figure %11
 histogram(nactivity,10)
 ylabel('# flies')
 xlabel('average df/f')
 axis square
 
 % plot raw values
-figure
+% SUP FIG 12d
+figure %12
 plot(nactivity,flyTruePref,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('average df/f')
 ylabel('measured preference')
@@ -433,7 +437,7 @@ axis square
 
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %13
 plot(myprediction,flyTruePref,'o','Color',[0.7 0.0 0.7],'LineWidth',3)
 for i=1:flyNum
    hold on
@@ -451,8 +455,8 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 
-
-figure
+% FIG 2f
+figure %14
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on
@@ -691,13 +695,14 @@ end
 % box off
 % set(gca,'FontSize',15)
 
-
+% figure 15
 violinPlot(testR2',ocolor)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 0 1])
 box off
 set(gca,'FontSize',15)
+% figure 16
 violinPlot(testR2shuffled',ocolor)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -708,7 +713,8 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-figure
+% FIG 1k ORN OCT-AIR preference prediction
+figure %17
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
@@ -716,7 +722,7 @@ axis([0 highestPCtouse+1 0 0.75])
 set(gca,'FontSize',15)
 set(gca,'xtick','')
 set(gca,'ytick','')
-figure
+figure %18
 boxplot(testR2shuffledt(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')
@@ -979,7 +985,7 @@ end
 myr2=(testR.^2').*sign(testR');
 myr2shuffled=(testRshuffled.^2').*sign(testRshuffled');
 
-figure
+figure %19
 subplot(1,2,1)
 distributionPlot(myr2,'histOpt',1,'colormap',1-gray(64),'showMM',0)
 xlabel('PC used for linear model')
@@ -995,13 +1001,14 @@ axis([0 highestPCtouse+1 -0.8 0.8])
 box off
 set(gca,'FontSize',15)
 
-
+% figure 20
 violinPlot(myr2,ocolor)
 xlabel('PC used for linear model')
 ylabel('Unshuffled R^2')
 axis([0 highestPCtouse+1 -.8 0.8])
 box off
 set(gca,'FontSize',15)
+% figure 21
 violinPlot(myr2shuffled,ocolor)
 xlabel('PC used for linear model')
 ylabel('Shuffled R^2')

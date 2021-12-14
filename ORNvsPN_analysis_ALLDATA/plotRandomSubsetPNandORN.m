@@ -9,9 +9,11 @@ allColorMaps
 
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/pn_alldata';
+load analysis_dir_path
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/pn_alldata');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -216,9 +218,9 @@ end
 
 % load ORNs
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/orn_alldata';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/orn_alldata');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 manualLabelledFolders=dir(manualLabelHome);
 manualLabelledFolders=manualLabelledFolders(3:end);
@@ -483,7 +485,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
+% SUP FIG 3 PNs
 vectorPixels(g2,hot(256),[0 0 0])
+% SUP FIG 3 ORNs
 vectorPixels(o2,hot(256),[0 0 0])
 
 % mean fill
@@ -506,7 +510,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
+% FIG 1h PNs
 vectorPixels(g2,hot(256),[0 0 0])
+% FIG 1h ORNs
 vectorPixels(o2,hot(256),[0 0 0])
 
 %% plot correlation matrix
@@ -521,12 +527,14 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
+% SUP FIG 6 PNs 
 vectorPixels(g2,cm.egoalley,[0 0 0])
 axis square
+% SUP FIG 6 ORNs
 vectorPixels(o2,cm.egoalley,[0 0 0])
 axis square
 
-figure;
+figure; %2
 imagesc(1:256);colormap(cm.egoalley)
 set(gca,'xtick','')
 set(gca,'ytick','')
@@ -537,8 +545,8 @@ pnMean=squeeze(nanmean(pnLobeMean,1));
 ornLobeMean=squeeze(nanmean(responsesTensorO(ornflies,:,:,:,:),2));
 ornMean=squeeze(nanmean(ornLobeMean,1));
 
-
-figure
+% FIG 1F
+figure %3
 subplot(2,2,3)
 currglom=1;
 currodor=11;
@@ -656,7 +664,9 @@ odorNames{10}='hexyl acetate';
 odorNames{11}='4-methylcyclohexanol';
 odorNames{12}='pentyl acetate';
 odorNames{13}='1-butanol';
-figure
+
+% SUP FIG 2
+figure %4
 k=0;
 for j= 1:13
     for i = 1:5
@@ -724,11 +734,13 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
+% FIG 1g PNs
 vectorPixels(g2,hot(256),[0 0 0])
+% FIG 1g ORNs
 vectorPixels(o2,hot(256),[0 0 0])
 
 % for making colorbar
-figure;
+figure; %5
 imagesc(1:256)
 colormap(hot)
 
@@ -736,7 +748,8 @@ colormap(hot)
 
 % plot GH146 vs Orco activation
 
-figure
+% SUP FIG 4a
+figure %6
 %plot(orc,gh,'k.','LineWidth',3,'MarkerSize',15)
 colorms=parula(5);
 hold on
@@ -755,7 +768,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 box on
 %% plot PN vs ORN activation for each glomerulus
-figure
+figure %7
 for j=1:length(gNames)
     subplot(1,5,j)
 plot(orc(j*(1:nodors)),gh(j*(1:nodors)),'k.','LineWidth',3,'MarkerSize',15)
@@ -768,7 +781,8 @@ end
 
 % plot response correlation between glomerulus measured in ORNs and PNs
 corrmat=corr(ormatrix',ghmatrix');
-figure
+% SUP FIG 4b
+figure %8
 imagesc(corrmat)
 set(gca,'ytick',1:length(gNamesO))
 set(gca,'yticklabel',[string(gNamesO)])
@@ -887,7 +901,8 @@ for ii=1:nshuffles
     end
 end
 
-figure;
+% SUP FIG 4c
+figure; %9
 plot(meanPublishedResponseorco,orc,'.','Color',ocolor,'LineWidth',2,'MarkerSize',15)
 hold on
 plot(meanPublishedResponsegh146,gh,'.','Color',pcolor,'LineWidth',2,'MarkerSize',15)
@@ -904,7 +919,8 @@ axis square
 set(gca,'xtick','')
 set(gca,'ytick','')
 
-figure;
+% SUP FIG 4d
+figure; %10
 for i = 1:length(gNames)
     subplot(1,length(gNames),i)
     mprotemp=transpose(meanPublishedResponseorco(((i-1)*nodors+1):(i)*nodors));
@@ -967,7 +983,8 @@ for i=1:nodors
        end
    end
 end
-figure;
+
+figure; %11
 imagesc(ghOdorResponseMapDistance,[-1 1])
 set(gca,'XTick',[1:nodors])
 set(gca,'XTickLabel',string(odornames))
@@ -978,7 +995,7 @@ ytickangle(30)
 title('PN')
 set(gca,'FontSize',15)
 
-figure;
+figure; %12
 imagesc(orOdorResponseMapDistance,[-1 1])
 set(gca,'XTick',[1:nodors])
 set(gca,'XTickLabel',string(odornames))
@@ -1010,7 +1027,7 @@ for i=1:length(gNames)
        end
    end
 end
-figure;
+figure; %13
 imagesc(ghGlomResponseMapDistance,[-1 1])
 set(gca,'YTick',[1:length(gNames)])
 set(gca,'YTickLabel',string(gNames))
@@ -1021,7 +1038,7 @@ ytickangle(30)
 title('PN')
 set(gca,'FontSize',15)
 
-figure;
+figure; %14
 imagesc(orGlomResponseMapDistance,[-1 1])
 set(gca,'XTick',[1:length(gNamesO)])
 set(gca,'XTickLabel',string(gNames))
@@ -1045,7 +1062,7 @@ for i=1:length(gNamesO)
    glomactivationO(i,:)=temp(:);
 end
 
-figure
+figure %15
 subplot(1,2,1)
 distributionPlot(glomactivation','histOpt',1,'colormap',1-gray(64),'showMM',0)
 xlabel('PNs')
@@ -1068,7 +1085,7 @@ xtickangle(30)
 set(gca,'FontSize',15)
 
 % plot std vs mean of each glom df/f
-figure
+figure %16
 plot(mean(glomactivation,2),std(glomactivation'),'k*','LineWidth',3,'MarkerSize',10)
 hold on
 text(mean(glomactivation,2)+0.01,std(glomactivation'),gNames,'FontSize',15)
@@ -1079,7 +1096,7 @@ plot(x,x,'--','Color',[0.65 0.65 0.65],'LineWidth',2)
 box off
 set(gca,'FontSize',15)
 
-figure
+figure %17
 plot(mean(glomactivationO,2),std(glomactivationO'),'k*','LineWidth',3,'MarkerSize',10)
 hold on
 text(mean(glomactivationO,2)+0.01,std(glomactivationO'),gNames,'FontSize',15)
@@ -1107,7 +1124,7 @@ opt.Display='iter';
 [COEFFO, SCOREO, LATENTO, TSQUAREDO, EXPLAINEDO] = pca(orcoreshaped,'Options',opt);
 
 mycolors=hsv(13);
-figure
+figure %18
 scatter(SCORE(:,1),SCORE(:,2),70,mycolors,'filled')
 text(SCORE(:,1),SCORE(:,2),odornames)
 title('PNs')
@@ -1116,7 +1133,7 @@ ylabel('PC 2')
 box off
 set(gca,'FontSize',15)
 
-figure
+figure %19
 scatter(SCOREO(:,1),SCOREO(:,2),70,mycolors,'filled')
 text(SCOREO(:,1),SCOREO(:,2),odornames)
 title('ORNs')
@@ -1133,7 +1150,7 @@ set(gca,'FontSize',15)
 % pns
 dc2anddm2=[gh146flyaverage(41,:)' gh146flyaverage(50,:)' gh146flyaverage(40,:)' gh146flyaverage(2,:)' gh146flyaverage(11,:)' gh146flyaverage(1,:)' ];
 
-figure
+figure %20
 distributionPlot(dc2anddm2,'histOpt',1,'colormap',1-gray(64),'showMM',0)
 set(gca,'XTick',1:6)
 set(gca,'XTickLabel',[{'DM2 - oct'}, {'DM2 - mch'}, {'DM2 - air'}, {'DC2 - oct'}, {'DC2 - mch'}, {'DC2 - air'}])
@@ -1159,7 +1176,7 @@ for i=1:length(gNames)
     end
 end
 
-figure
+figure %21
 imagesc(abs(octminusmch))
 
 
@@ -1197,8 +1214,8 @@ opt = statset('pca');
 opt.Display='iter';
 [COEFFO, SCOREO, LATENTO, TSQUAREDO, EXPLAINEDO] = pca(responsesNoResponseRemovedO','Options',opt);
 
-
-figure;
+% FIG 1i
+figure; %22
 plot(cumsum(EXPLAINEDO),'-','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 hold on
 plot(cumsum(EXPLAINED),'--','Color',pcolor,'LineWidth',3,'MarkerSize',15)
@@ -1213,7 +1230,8 @@ set(gca,'ytick','')
 set(gca,'FontSize',15)
 
 % plot pc loadings  grouped by glomerulus
-figure;
+% SUP FIG 7b
+figure; %23
 for i=1:10
     subplot(2,5,i)
     plot(COEFF(:,i),'.','Color',pcolor,'LineWidth',2,'MarkerSize',15)
@@ -1236,7 +1254,8 @@ for i=1:10
     set(gca,'ytick','')
 end
 
-figure;
+% SUP FIG 7a
+figure; %24
 for i=1:10
     subplot(2,5,i)
     plot(COEFFO(:,i),'.','Color',ocolor,'LineWidth',2,'MarkerSize',15)
@@ -1259,7 +1278,8 @@ for i=1:10
 end
 
 % plot pc loadings grouped by odor
-figure;
+% SUP FIG 7d
+figure; %25
 for i=1:10
     subplot(2,5,i)
     currpc = COEFF(:,i);
@@ -1290,7 +1310,8 @@ end
 
 
 % plot pc loadings grouped by odor
-figure;
+% SUP FIG 7c
+figure; %26
 for i=1:10
     subplot(2,5,i)
     currpc = COEFFO(:,i);
@@ -1323,7 +1344,7 @@ end
 %% plot 25 pc loadings
 
 % plot pc loadings  grouped by glomerulus
-figure;
+figure; %27
 for i=1:25
     subplot(5,5,i)
     plot(COEFF(:,i),'.','Color',pcolor,'LineWidth',2,'MarkerSize',15)
@@ -1346,7 +1367,7 @@ for i=1:25
     set(gca,'ytick','')
 end
 
-figure;
+figure; %28
 for i=1:25
     subplot(5,5,i)
     plot(COEFFO(:,i),'.','Color',ocolor,'LineWidth',2,'MarkerSize',15)
@@ -1369,7 +1390,7 @@ for i=1:25
 end
 
 % plot pc loadings grouped by odor
-figure;
+figure; %29
 for i=1:25
     subplot(5,5,i)
     currpc = COEFF(:,i);
@@ -1400,7 +1421,7 @@ end
 
 
 % plot pc loadings grouped by odor
-figure;
+figure; %30
 for i=1:25
     subplot(5,5,i)
     currpc = COEFFO(:,i);
@@ -1528,7 +1549,7 @@ end
 msize=10;
 lsize=3;
 
-figure
+figure %31
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1669,7 +1690,7 @@ msize=10;
 lsize=3;
 mycmapO=mycmap;
 
-figure
+figure %32
 hold on
 i=0;
 %for j=1:(flyNumO)
@@ -1735,7 +1756,8 @@ allFlies=1:(flyNum);
 msize=15;
 lsize=1;
 
-figure
+% FIG 1i (PNs)
+figure %33
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1779,7 +1801,8 @@ allFlies=1:(flyNumO);
 
 mycmapO=mycmap;
 
-figure
+% FIG 1i (ORNs)
+figure %34
 hold on
 i=0;
 %for j=1:(flyNumO)
@@ -1828,7 +1851,8 @@ allFlies=1:(flyNum);
 
 msize=10;
 lsize=2;
-figure
+% SUP FIG 5b PN left lobe
+figure %35
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1861,8 +1885,8 @@ xlabel(['PC 1 Score (' num2str(EXPLAINED(1),'%0.1f') '%)'])
 ylabel(['PC 2 Score (' num2str(EXPLAINED(2),'%0.1f') '%)'])
 set(gca,'FontSize',15)
 
-
-figure
+% SUP FIG 5b PN right lobe
+figure %36
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1904,7 +1928,8 @@ pcstouse=pcsWithinVariance(end);
 disp(['Using ' num2str(pcstouse) ' PCs'])
 
 mycmapO=mycmap;
-figure
+% SUP FIG 5b ORN left lobe
+figure %37
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1937,7 +1962,8 @@ xlabel(['PC 1 Score (' num2str(EXPLAINEDO(1),'%0.1f') '%)'])
 ylabel(['PC 2 Score (' num2str(EXPLAINEDO(2),'%0.1f') '%)'])
 set(gca,'FontSize',15)
 
-figure
+% SUP FIG 5b ORN right lobe
+figure %38
 hold on
 i=0;
 %for j=1:(flyNum)
@@ -1988,7 +2014,8 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-figure
+% SUP FIG 5c within lobe ORN/PN
+figure %39
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -2022,7 +2049,8 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-figure
+% SUP FIG 5c across lobe ORN/PN
+figure %40
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -2057,7 +2085,8 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-figure
+% SUP FIG 5c across fly ORN/PN
+figure %41
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -2119,7 +2148,7 @@ ORNtoboxplot=[ withinleftO(:) withinrightO(:) withinacrossO(:) acrossleftO(:) ac
 % box off
 % set(gca,'FontSize',15)
 
-
+% Figure 42
 violinPlot(ORNtoboxplot,ocolor)
 ylabel('coding space distance')
 xlabels{1}='within (left)';
@@ -2133,6 +2162,7 @@ xtickangle(30)
 box off
 set(gca,'FontSize',15)
 
+% Figure 43
 violinPlot(PNtoboxplot,pcolor)
 ylabel('coding space distance')
 xlabels{1}='within (left)';
@@ -2179,6 +2209,7 @@ ORNtoboxplot=[ withinleftO(:) withinrightO(:) withinacrossO(:)];
 % box off
 % set(gca,'FontSize',15)
 
+% Figure 44
 violinPlot(ORNtoboxplot,ocolor)
 ylabel('coding space distance')
 xlabels{1}='within (left)';
@@ -2189,6 +2220,7 @@ xtickangle(30)
 box off
 set(gca,'FontSize',15)
 
+% Figure 45
 violinPlot(PNtoboxplot,pcolor)
 ylabel('coding space distance')
 xlabels{1}='within (left)';
@@ -2245,6 +2277,7 @@ ORNtoboxplot=[acrossleftO(:) acrossrightO(:) acrossallO(:)];
 % box off
 % set(gca,'FontSize',15)
 
+% Figure 46
 violinPlot(ORNtoboxplot,ocolor)
 ylabel('coding space distance')
 xlabels{1}='across (left)';
@@ -2255,6 +2288,7 @@ xtickangle(30)
 box off
 set(gca,'FontSize',15)
 
+% Figure 47
 violinPlot(PNtoboxplot,pcolor)
 ylabel('coding space distance')
 xlabels{1}='across (left)';
@@ -2299,7 +2333,8 @@ groupings=[groupings 4*ones(1,flyNum)];
 
 
 colors=[ocolor; pcolor; ocolor; pcolor];
-figure
+% FIG 1j
+figure %48
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 %boxplot(combined,groupings,'BoxStyle','filled','Colors',colors)
 ylabel('coding space distance')

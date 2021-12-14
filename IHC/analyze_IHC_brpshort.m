@@ -4,14 +4,17 @@ close all
 load orcobrpshort_all_data
 %% load data from raw file 
 clear all
-close all
-apple=1;
+% close all
+
+load analysis_dir_path
+
+apple=0;
 if apple==1
-    startdir='/Users/mattchurgin/Dropbox/flyimaging/analysis/IHC/OrcoBrpshort/autoSegmentation';
-    manualSegDir='/Users/mattchurgin/Dropbox/flyimaging/analysis/IHC/OrcoBrpshort/orcoOX5brpshortOXZ';
+    startdir=fullfile(analysis_dir_path, 'IHC/OrcoBrpshort/autoSegmentation');
+    manualSegDir=fullfile(analysis_dir_path, 'IHC/OrcoBrpshort/orcoOX5brpshortOXZ');
 else
-    startdir='C:\Users\mac0456\Dropbox\flyimaging\analysis\IHC\OrcoBrpshort\autoSegmentation';
-    manualSegDir='C:\Users\mac0456\Dropbox\flyimaging\analysis\IHC\OrcoBrpshort\orcoOX5brpshortOXZ';
+    startdir=fullfile(analysis_dir_path, 'IHC\OrcoBrpshort\autoSegmentation');
+    manualSegDir=fullfile(analysis_dir_path, 'IHC\OrcoBrpshort\orcoOX5brpshortOXZ');
 end
 cd(startdir)
 
@@ -135,7 +138,7 @@ odorbOrig = odorb;
 odorpreOrig = odorpre;
 %% set to plot only training data or all data
 load ORN_PN_colors
-trainingonly =0; % 0 to include train + test data, 1 to include only train data for model building
+trainingonly =1; % 0 to include train + test data, 1 to include only train data for model building
 if trainingonly
     glomSize = glomSizeOrig;
     glomTotalF = glomTotalFOrig;
@@ -152,8 +155,9 @@ end
 
 %%  plot glomerulus properties
 
-figure
+figure %1
 subplot(1,3,1)
+% SUP FIG 11a
 plot(glomSize((1:flyNum)*2-1,:),glomSize((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('volume (um^3)')
 xlabel('left lobe')
@@ -162,6 +166,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 6200 0 6200])
 subplot(1,3,2)
+% SUP FIG 11b
 plot(glomTotalF((1:flyNum)*2-1,:),glomTotalF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('total fluorescence')
 xlabel('left lobe')
@@ -170,6 +175,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 5e5 0 5e5])
 subplot(1,3,3)
+% SUP FIG 11c
 plot(glomRelativeF((1:flyNum)*2-1,:),glomRelativeF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 legend(glomeruliToSegment)
 legend boxoff
@@ -180,6 +186,8 @@ set(gca,'FontSize',15)
 axis square
 axis([10 80 10 80])
 
+% figure 2
+% SUP FIG 11d
 violinPlot(glomSize,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -188,6 +196,8 @@ axis([0 5 0 1.2*max(max(glomSize))])
 box on
 set(gca,'FontSize',15)
 
+% figure 3
+% SUP FIG 11e
 violinPlot(glomTotalF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -196,6 +206,8 @@ axis([0 5 0 1.2*max(max(glomTotalF))])
 box on
 set(gca,'FontSize',15)
 
+% figure 4
+% SUP FIG 11f
 violinPlot(glomRelativeF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -234,7 +246,7 @@ end
 
 [coeffR scoreR latentR tsqR explainedR] = pca(glomR); % relative F (F/volume)
 
-figure
+figure %5
 for i=1:size(coeffF,2)
     
     subplot(3,size(coeffF,2),i)
@@ -280,7 +292,8 @@ for i=1:size(coeffF,2)
     
 end
 
-figure
+% SUP FIG 11g/h (toggle trainingonly = 0/1)
+figure %6
 for i=1:size(coeffF,2)
     
     subplot(1,size(coeffF,2),i)
@@ -298,7 +311,7 @@ for i=1:size(coeffF,2)
     
 end
 
-figure
+figure %7
 plot(coeffR(:,2),'.','Color',ocolor,'LineWidth',3,'MarkerSize',20)
 hold on
 plot(0:(size(coeffR(:,i),1)+1),zeros(1,size(coeffR(:,i),1)+2),'k--','LineWidth',2)
@@ -309,7 +322,7 @@ xtickangle(30)
 axis([0 5 -.6 .85])
 set(gca,'FontSize',15)
 %% plot principal component 2 vs behavior
-close all
+% close all
 
 componentR=2;
 measureToUse=scoreR;
@@ -322,7 +335,9 @@ ypredtrain = predict(pcmodel,transpose(mean([measureToUse(2*go-1,componentR)'; m
 
 myprediction=ypredtrain;
 flyTruePref=odorb(go);
-figure
+% SUP FIG 11j
+% FIG 3f if toggletrainingonly=1
+figure %8
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -342,20 +357,21 @@ axis square
 
 dif = mean([glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)'; glomR(2*(go),1)'-glomR(2*(go),3)']);
 percentdif = 100*mean([(glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)')./(mean([glomR(2*(go-1)+1,1)'; glomR(2*(go-1)+1,3)'])); (glomR(2*(go),1)'-glomR(2*(go),3)')./(mean([glomR(2*(go),1)'; glomR(2*(go),3)']))]);
-figure
+% SUP FIG 12g
+figure %9
 histogram(percentdif,10)
 xlabel('DM2 - DC2 (% Brp-Short density)')
 ylabel('# flies')
 axis square
 
-
-figure
+% SUP FIG 12h
+figure %10
 plot(percentdif,odorb,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% Brp-Short density)')
 ylabel('measured preference')
 axis square
 
-figure
+figure %11
 hold on
 for i=go
     plot(mean([(glomR(2*(i-1)+1,1)'-glomR(2*(i-1)+1,3)'); (glomR(2*(i),1)'-glomR(2*(i),3)')]),odorb(i),'mo','LineWidth',3)
@@ -374,7 +390,8 @@ calciumpredtrain = predict(calciummodel,transpose(mean([glomR(2*(go-1)+1,1)'-glo
 
 myprediction=calciumpredtrain;
 flyTruePref=odorb(go);
-figure
+% FIG 3h
+figure %12
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -390,7 +407,7 @@ axis square
 
 
 %% plot single glomerulus brp-short density alone versus behavior
-close all
+% close all
 
 glomtouse=3; % 1 for DM2, 3 for DC2
 predictormatrix=glomR; 
@@ -398,7 +415,7 @@ predictormatrix=glomR;
 go=find(odorb);
 
 % use relative fluorescence
-figure
+figure %13
 hold on
 for i=go
     plot(mean([predictormatrix(2*(i-1)+1,glomtouse)'; predictormatrix(2*i,glomtouse)']),odorb(i),'o','Color',ocolor,'LineWidth',3)
@@ -412,7 +429,8 @@ set(gca,'FontSize',15)
 singleGlomModel = fitlm(mean([predictormatrix(2*(go-1)+1,glomtouse)'; predictormatrix(2*go,glomtouse)']),odorb);
 
 ypredtrain = predict(singleGlomModel,transpose(mean([predictormatrix(2*go-1,glomtouse)'; predictormatrix(2*go,glomtouse)'])));
-figure
+
+figure %14
 plot(ypredtrain,odorb(go),'o','Color',[0.9 0.2 0.9],'LineWidth',3)
 text(0.0,0.1,['r = ' num2str(rr(1,2),'%02.2f')],'FontSize',15)
 text(0.0,0.1,['p = ' num2str(pr(1,2),'%02.2f')],'FontSize',15)
@@ -424,7 +442,8 @@ set(gca,'FontSize',15)
 
 myprediction=ypredtrain;
 flyTruePref=odorb(go);
-figure
+% SUP FIG 11k/l (toggle glomtouse)
+figure %15
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -563,7 +582,8 @@ for j=1:highestPCtouse
     labs=[labs j*ones(1,iters)];
 end
 
-figure
+% FIG 3d
+figure %16
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC')
 ylabel('Unshuffled R^2')
@@ -571,7 +591,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 axis([0 highestPCtouse+1 0 0.7])
 set(gca,'FontSize',15)
-figure
+figure %17
 boxplot(testR2shuffledt(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC')
 ylabel('Shuffled R^2')
@@ -600,7 +620,7 @@ scoreTe=glomRt*coeffR(:,pctouse);
 
 
 % use relative fluorescence
-figure
+figure %18
 hold on
 go2=find(odorbTest);
 
@@ -614,7 +634,7 @@ title('fluorescence/volume')
 set(gca,'FontSize',15)
 
 ypred = predict(pcmodel,transpose(mean([scoreTe(2*go2-1)'; scoreTe(2*go2)'])));
-figure
+figure %19
 plot(ypred,odorbTest(go2),'o','Color',[0.95 0.2 0.95],'LineWidth',3)
 text(0.0,0.1,['r = ' num2str(rr(1,2))],'FontSize',15)
 text(0.0,0.1,['p = ' num2str(pr(1,2))],'FontSize',15)
@@ -626,7 +646,8 @@ set(gca,'FontSize',15)
 
 myprediction=ypred;
 flyTruePref=odorbTest(go2);
-figure
+% FIG 3g
+figure %20
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
@@ -640,7 +661,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 axis square
 
-figure
+figure %21
 hold on
 for i=go2
     plot(mean([(glomRt(2*(i-1)+1,1)'-glomRt(2*(i-1)+1,3)'); (glomRt(2*(i),1)'-glomRt(2*(i),3)')]),odorbTest(i),'ko','LineWidth',3)
@@ -656,7 +677,7 @@ set(gca,'FontSize',15)
 
 
 calciumpred = predict(calciummodel,transpose(mean([(glomRt(2*(go2-1)+1,1)'-glomRt(2*(go2-1)+1,3)'); (glomRt(2*(go2),1)'-glomRt(2*(go2),3)')])));
-figure
+figure %22
 hold on
 plot(calciumpred,odorbTest(go2),'o','Color',[0.95 0.2 0.95],'LineWidth',3)
 text(0.0,0.1,['r = ' num2str(-rd(1,2),'%02.2f')],'FontSize',15)
@@ -683,7 +704,7 @@ end
 ppc = sum(rpc<0)/length(rpc)
 pdm2dc2 = sum(rdm2dc2>0)/length(rdm2dc2)
 
-figure
+figure %23
 histogram(rpc,'Normalization','probability')
 xlabel('r')
 ylabel('probability')
@@ -700,7 +721,7 @@ text(0,0.01,['p2 = ' num2str(pdm2dc2)],'FontSize',15)
 set(gca,'FontSize',15)
 
 
-figure
+figure %24
 histogram(rpc,'Normalization','probability')
 title('bootstrap resampling')
 xlabel('r')
@@ -708,3 +729,7 @@ ylabel('probability')
 box off
 text(0,0.01,['p = ' num2str(ppc)],'FontSize',15)
 set(gca,'FontSize',15)
+
+% figure 25
+example_fly_mask = fullfile(analysis_dir_path, '\IHC\OrcoBrpshort\autoSegmentation\190404_orcobrpshort_behaviorAndImaging\fly12__autoseg_xystep11_labelled.mat');
+showIHCsegmented(example_fly_mask)

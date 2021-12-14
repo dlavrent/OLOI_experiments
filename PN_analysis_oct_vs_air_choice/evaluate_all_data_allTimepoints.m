@@ -1,10 +1,11 @@
 % look at manually labelled gh146 flies in odor space
 clear all
 %close all
+load analysis_dir_path
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/PN_analysis_oct_vs_air_choice/alldata';
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -233,7 +234,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -253,7 +254,7 @@ ally=behaviorOcc';
 
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %2
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -269,7 +270,7 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %3
 plot(myprediction,flyTruePref,'o','LineWidth',3)
 for i=1:flyNum
     hold on
@@ -284,7 +285,7 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 PCContribution=COEFF(:,pcstouse);
-figure;
+figure; %4
 plot(PCContribution,'*','LineWidth',2,'MarkerSize',8)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -310,7 +311,7 @@ currpc=COEFF(:,pcstouse);
 
 
 mycolors=parula(tc);
-figure;
+figure; %5
 for i =1:tc
 plot(PCContribution(i:tc:end),'*','Color',mycolors(i,:),'LineWidth',2,'MarkerSize',8)
 hold on
@@ -350,7 +351,7 @@ for j = 1:tc
     
 end
 load ORN_PN_colors
-figure;
+figure; %6
 plot(1.2:1.2:25,r2,'-','Color',pcolor,'LineWidth',3,'MarkerSize',15)
 hold on
 plot(6*ones(5,1),linspace(0,0.18,5),'k--')
@@ -398,7 +399,7 @@ for j = 1:tc
     end
 end
 
-figure
+figure %7
 imagesc(1.2:1.2:25,1.2:1.2:25,ctd,[-0.025 0.2])
 ylabel('train time (s)')
 xlabel('test time (s)')
@@ -411,10 +412,10 @@ set(gca,'FontSize',15)
 clear all
 
 load ORN_PN_colors
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/PN_analysis_oct_vs_air_choice/alldata';
-
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -659,8 +660,8 @@ for odortimes = 1:20
 end
 
 
-
-figure
+% SUP FIG 10a
+figure %8
 plot(1:20,myr2,'Color',pcolor,'LineWidth',3)
 xlabel('time')
 ylabel('R^2')

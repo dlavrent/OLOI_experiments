@@ -3,7 +3,8 @@ clear all
 close all
 
 load ORN_PN_colors
-homedir='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/IHC/expansion_experiment/191120_or13a_brpshort_behaviorAndExpansionImaging_age10days';
+load analysis_dir_path
+homedir=fullfile(analysis_dir_path, 'IHC/expansion_experiment/191120_or13a_brpshort_behaviorAndExpansionImaging_age10days');
 spotfolder = 'maskedSpotImages_lowthreshmask';
 maskfolder ='masks_lowthresh';
 rawimagemaskedfolder='rawimages_masked';
@@ -97,7 +98,7 @@ end
 
 %%
 
-figure
+figure %1
 plot(tf,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(tf,b);
 text(min(tf),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -107,7 +108,7 @@ ylabel('preference score')
 set(gca,'FontSize',15)
 axis square
 
-figure
+figure %2
 plot(tfd,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(tfd,b);
 text(min(tfd),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -117,7 +118,7 @@ ylabel('preference score')
 set(gca,'FontSize',15)
 axis square
 
-figure
+figure %3
 plot(st,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(st,b);
 text(min(st),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -127,7 +128,8 @@ ylabel('preference score')
 set(gca,'FontSize',15)
 axis square
 
-figure
+% FIG 3j
+figure %4
 plot(sd,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(sd,b);
 text(min(sd),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -138,7 +140,8 @@ set(gca,'FontSize',15)
 axis([0.0025 0.0225 -0.6 0.2])
 axis square
 
-figure
+% FIG 3k
+figure %5
 plot(sm,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(sm,b);
 text(min(sm),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -149,3 +152,7 @@ set(gca,'FontSize',15)
 axis([1 4 -0.6 0.2])
 axis square
 
+% FIG 3i
+figure %6
+imagesc(1-binarizedSpots{8}(:,:,65))
+colormap('gray')

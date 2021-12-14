@@ -63,7 +63,7 @@ clear all
 close all
 load neuralactivitybehavior_model
 
-figure
+figure %1
 imagesc(finalVarianceExplained)
 hold on
 [C,h] = contour(finalVarianceExplained,[0.1 0.2 0.3 0.4 0.5]);
@@ -96,8 +96,8 @@ for i=1:length(behaviorcorr)
     end
 end
 
-
-figure
+% SUP FIG 8b
+figure %2
 imagesc(latentVariableCorr)
 hold on
 [C,h] = contour(latentVariableCorr,[0.5 0.75 0.9]);
@@ -125,7 +125,7 @@ g2=255*g2/maxc;
 g2=g2+1;
 vectorPixels(g2,parula(256),[0 0 0])
 
-figure
+figure %3
 imagesc(zeros(size(latentVariableCorr)))
 hold on
 [C,h] = contour(latentVariableCorr,[0.5 0.75 0.9]);

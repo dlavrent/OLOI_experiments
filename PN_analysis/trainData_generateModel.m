@@ -4,9 +4,11 @@ clear all
 rng('default')
 
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/PN_analysis/train';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+load analysis_dir_path
+manualLabelHome= fullfile(analysis_dir_path, 'PN_analysis/train');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -425,4 +427,4 @@ linmodelRaw
 
 mypc = COEFF(:,pcstouse);
 
-save trainDataModel_191210 linmodelRaw linmodelPrecorrected gNames mypc
+%save trainDataModel_191210 linmodelRaw linmodelPrecorrected gNames mypc

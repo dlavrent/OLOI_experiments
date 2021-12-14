@@ -4,9 +4,10 @@ clear all
 rng('default')
 
 load ORN_PN_colors
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/PN_analysis_oct_vs_air_choice/alldata';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -229,7 +230,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -262,7 +263,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -367,7 +368,7 @@ msize=10;
 lsize=3;
 %
 % % plot average across all odors for flies with both lobe data
-figure
+figure %3
 hold on
 
 % plot(0,0,'Marker',m{1},'Color','k')
@@ -395,7 +396,7 @@ xlabel('PC 1 Score')
 ylabel('PC 2 Score')
 set(gca,'FontSize',15)
 
-figure
+figure %4
 hold on
 for j=1:(flyNum)
     
@@ -435,7 +436,7 @@ acrossleft=acrossLLobe;
 acrossright=acrossRLobe;
 acrossall=acrossAllLobe;
 
-figure
+figure %5
 boxplot([withinleft(:) withinright(:) withinacross(:) acrossleft(:) acrossright(:) acrossall(:)])
 ylabel('Distance in Coding Space')
 xlabels{1}='Within Fly (Left Lobe)';
@@ -460,7 +461,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %6
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -478,7 +479,8 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+% FIG 2a inset
+figure %7
 plot((myprediction-mean(myprediction))/std(myprediction),(flyTruePref-mean(flyTruePref))/std(flyTruePref),'.','Color',pcolor,'LineWidth',2)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -493,7 +495,7 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 PCContribution=COEFF(:,pcstouse);
-figure;
+figure; %8
 plot(PCContribution,'.','Color',pcolor,'LineWidth',2,'MarkerSize',5)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -510,7 +512,8 @@ ylabel('PC 1 loadings')
 axis([0 66 -.01 .32])
 set(gca,'FontSize',15)
 
-figure;
+% FIG 2a loadings
+figure; %9
 bar(PCContribution,'FaceColor',pcolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -529,7 +532,8 @@ ylabel('PC 1 loadings')
 axis([0 66 -.05 .32])
 set(gca,'FontSize',15)
 
-figure;
+% FIG 2b interpreted loadings
+figure; %10
 bar(ones(1,65),'FaceColor',pcolor)
 hold on
 plot(zeros(1,length(PCContribution(:,1))),'k--','LineWidth',3)
@@ -551,7 +555,7 @@ set(gca,'FontSize',15)
 currpc=PCContribution;
 
 gbcm=interp1([1 256],[0 0 0; 0 1 0],1:256);
-figure
+figure %11
 scatter(flypc(:,1),flypc(:,2),50,flyTruePref,'filled')
 colormap(gbcm)
 box on
@@ -573,7 +577,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %12
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -592,14 +596,14 @@ end
 
 
 % plot histogram
-figure
+figure %13
 histogram(nactivity,10)
 ylabel('# flies')
 xlabel('average df/f')
 axis square
 
 % plot raw values
-figure
+figure %14
 plot(nactivity,flyTruePref,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('average df/f')
 ylabel('measured preference')
@@ -607,7 +611,7 @@ axis square
 
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-figure
+figure %15
 plot(myprediction,flyTruePref,'o','Color',[0 0.7 0],'LineWidth',3)
 for i=1:flyNum
    hold on
@@ -625,8 +629,8 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 
-
-figure
+% FIG 2c
+figure %16
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on

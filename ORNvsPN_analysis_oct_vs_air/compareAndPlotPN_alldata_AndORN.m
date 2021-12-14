@@ -10,10 +10,11 @@ allColorMaps
 pncolor=[0 0.8 0];
 orncolor=[0.9 0 0.7];
 rng('default')
+load analysis_dir_path
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_oct_vs_air/PN_alldata';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_oct_vs_air/PN_alldata');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -231,9 +232,10 @@ if yesZscore
 end
 % load ORNs
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_oct_vs_air/ORN_alldata';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_oct_vs_air/ORN_alldata');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 manualLabelledFolders=dir(manualLabelHome);
 manualLabelledFolders=manualLabelledFolders(3:end);

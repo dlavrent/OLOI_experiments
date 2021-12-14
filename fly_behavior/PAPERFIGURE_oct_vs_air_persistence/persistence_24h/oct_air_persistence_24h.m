@@ -1,8 +1,10 @@
 clear all
 close all
 
-foldernames{1} = '191009_oct_vs_air_persistence';
-foldernames{2} = '191010_oct_vs_air_persistence';
+load analysis_dir_path
+
+foldernames{1} = fullfile(analysis_dir_path, 'fly_behavior\PAPERFIGURE_oct_vs_air_persistence\persistence_24h\191009_oct_vs_air_persistence');
+foldernames{2} = fullfile(analysis_dir_path, 'fly_behavior\PAPERFIGURE_oct_vs_air_persistence\persistence_24h\191010_oct_vs_air_persistence');
 prefix = 'oct_air';
 
 
@@ -102,7 +104,8 @@ t(todelete)=[];
 
 
 [r p] = corrcoef(z-zp,t-tp);
-figure;
+% SUP FIG 1c
+figure; %1
 plot(z-zp,t-tp,'k.','LineWidth',2,'MarkerSize',15)
 text(0, 0, ['r = ' num2str(r(1,2),'%02.3f')],'FontSize',15)
 text(0.1, 0, ['p = ' num2str(p(1,2),'%02.3f')],'FontSize',15)
@@ -137,5 +140,5 @@ for i=1:iters
     rboot(i)=r(1,2);
 end
 
-figure;
+figure; %2
 histogram(rboot)

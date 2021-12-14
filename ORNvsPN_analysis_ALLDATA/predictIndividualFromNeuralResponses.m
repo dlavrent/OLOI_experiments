@@ -9,9 +9,11 @@ allColorMaps
 
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/pn_alldata';
+load analysis_dir_path
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/pn_alldata');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -260,9 +262,10 @@ end
 % now for orn
 rng('default')
 
-manualLabelHome='/Users/mattchurgin/Dropbox (Harvard University)/flyimaging/analysis/ORNvsPN_analysis_ALLDATA/orn_alldata';
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_ALLDATA/orn_alldata');
+
+publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -468,7 +471,7 @@ for fv=fvs
 end
 
 %%
-figure
+figure %1
 plot(actualfvo,orcoacc,'x-','Color',ocolor,'LineWidth',3,'MarkerSize',10)
 hold on
 plot(actualfvo,orcoacc_shuffled,'x--','Color',ocolor,'LineWidth',3,'MarkerSize',10)
@@ -482,7 +485,7 @@ axis([10 90 0 1])
 axis square
 set(gca,'FontSize',15)
 
-figure
+figure %2
 plot(actualfvo,orcoacc,'x','Color',ocolor,'LineWidth',3,'MarkerSize',10)
 hold on
 plot(actualfvo,orcoacc_shuffled,'x--','Color',ocolor,'LineWidth',3,'MarkerSize',10)
@@ -498,5 +501,5 @@ set(gca,'FontSize',15)
 % plot
 x=[1:4];
 y=[orcoacc orcoacc_shuffled gh146acc gh146acc_shuffled];
-figure
+figure %3
 bar(x,y,'FaceColor','k')
