@@ -730,6 +730,7 @@ box off
 text(0,0.01,['p = ' num2str(ppc)],'FontSize',15)
 set(gca,'FontSize',15)
 
+% FIG 3c
 % figure 25
 example_fly_mask = fullfile(analysis_dir_path, '\IHC\OrcoBrpshort\autoSegmentation\190404_orcobrpshort_behaviorAndImaging\fly12__autoseg_xystep11_labelled.mat');
 showIHCsegmented(example_fly_mask)

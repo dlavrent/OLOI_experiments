@@ -639,7 +639,7 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-
+% SUP FIG 11i
 figure %11
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 for i=1:flyNum
