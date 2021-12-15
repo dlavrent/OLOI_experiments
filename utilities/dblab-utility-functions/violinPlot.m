@@ -1,8 +1,8 @@
-function out=violinPlot(data)
+function out=violinPlot(data, violinColor)
 
 bufferWidth=1;
 numPts=100;
-violinColor=[0.8 0.8 0.8];
+%violinColor=[0.8 0.8 0.8];
 
 switch class(data)
     case 'double'
