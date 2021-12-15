@@ -14,7 +14,7 @@ load analysis_dir_path
 
 manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_oct_vs_air/PN_alldata');
 
-publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
+publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -235,7 +235,7 @@ end
 
 manualLabelHome=fullfile(analysis_dir_path, 'ORNvsPN_analysis_oct_vs_air/ORN_alldata');
 
-publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
+publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 manualLabelledFolders=dir(manualLabelHome);
 manualLabelledFolders=manualLabelledFolders(3:end);

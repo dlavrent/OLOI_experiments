@@ -13,7 +13,7 @@ load analysis_dir_path
 
 manualLabelHome=fullfile(analysis_dir_path, 'ORN_analysis/ornflies');
 
-publishedOdorPath=fullfile(analysis_dir_path, 'odorPanel_12_DoORData.mat');
+publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
