@@ -130,6 +130,9 @@ axis square
 
 % FIG 3j
 figure %4
+hold on;
+linreg = linearRegressionCI2(sd, b, 1, 0, 0.0025, 0.0225);
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9]);
 plot(sd,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(sd,b);
 text(min(sd),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)
@@ -142,6 +145,9 @@ axis square
 
 % FIG 3k
 figure %5
+hold on;
+linreg = linearRegressionCI2(sm, b, 1, 0, 1, 4);
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
 plot(sm,b,'.','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef(sm,b);
 text(min(sm),min(b)+.1,['r = ' num2str(r(1,2),'%02.2f')],'FontSize',15)

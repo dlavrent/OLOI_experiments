@@ -138,7 +138,7 @@ odorbOrig = odorb;
 odorpreOrig = odorpre;
 %% set to plot only training data or all data
 load ORN_PN_colors
-trainingonly =1; % 0 to include train + test data, 1 to include only train data for model building
+trainingonly =0; % 0 to include train + test data, 1 to include only train data for model building
 if trainingonly
     glomSize = glomSizeOrig;
     glomTotalF = glomTotalFOrig;
@@ -329,19 +329,31 @@ measureToUse=scoreR;
 
 go=find(odorb);
 
-pcmodel = fitlm(mean([measureToUse(2*(go-1)+1,componentR)'; measureToUse(2*go,componentR)']),odorb);
+if trainingonly
+    pcmodel = fitlm(mean([measureToUse(2*(go-1)+1,componentR)'; measureToUse(2*go,componentR)']),odorb);
+    save('IHC_training_model.mat', 'pcmodel');
+else
+    load('IHC_training_model.mat');
+end
 
 ypredtrain = predict(pcmodel,transpose(mean([measureToUse(2*go-1,componentR)'; measureToUse(2*go,componentR)'])));
 
 myprediction=ypredtrain;
 flyTruePref=odorb(go);
-% SUP FIG 11j
 % FIG 3f if toggletrainingonly=1
 figure %8
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -2.2, 2.2);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
+
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+text(-.3,-.75,['n = ' num2str(size(xVals),'%2.2f')],'FontSize',15)
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')
 set(gca,'FontSize',15)
@@ -350,7 +362,6 @@ axis([-2.2 2.2 -2.2 2.2])
 set(gca,'xtick','')
 set(gca,'ytick','')
 axis square
-
 
 
 %% plot DM2 - DC2 versus behavior
@@ -392,10 +403,18 @@ myprediction=calciumpredtrain;
 flyTruePref=odorb(go);
 % FIG 3h
 figure %12
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -2.5, 2.5);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
+
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+text(-.3,-.75,['n = ' num2str(size(xVals),'%2.2f')],'FontSize',15)
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')
 set(gca,'FontSize',15)
@@ -448,6 +467,7 @@ plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(fly
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+text(-.3,-.75,['n = ' num2str(size(xVals),'%2.2f')],'FontSize',15)
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')
 set(gca,'FontSize',15)
@@ -648,10 +668,18 @@ myprediction=ypred;
 flyTruePref=odorbTest(go2);
 % FIG 3g
 figure %20
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -2.2, 2.2);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
+
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+text(-.3,-.75,['n = ' num2str(size(xVals),'%2.2f')],'FontSize',15)
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')
 set(gca,'FontSize',15)
@@ -660,6 +688,7 @@ axis([-2.2 2.2 -2.2 2.2])
 set(gca,'xtick','')
 set(gca,'ytick','')
 axis square
+
 
 figure %21
 hold on
