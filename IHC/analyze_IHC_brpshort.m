@@ -157,7 +157,7 @@ end
 
 figure %1
 subplot(1,3,1)
-% SUP FIG 11a
+% SUP FIG 12a
 plot(glomSize((1:flyNum)*2-1,:),glomSize((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('volume (um^3)')
 xlabel('left lobe')
@@ -166,7 +166,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 6200 0 6200])
 subplot(1,3,2)
-% SUP FIG 11b
+% SUP FIG 12b
 plot(glomTotalF((1:flyNum)*2-1,:),glomTotalF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('total fluorescence')
 xlabel('left lobe')
@@ -175,7 +175,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 5e5 0 5e5])
 subplot(1,3,3)
-% SUP FIG 11c
+% SUP FIG 12c
 plot(glomRelativeF((1:flyNum)*2-1,:),glomRelativeF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 legend(glomeruliToSegment)
 legend boxoff
@@ -187,7 +187,7 @@ axis square
 axis([10 80 10 80])
 
 % figure 2
-% SUP FIG 11d
+% SUP FIG 12d
 violinPlot(glomSize,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -197,7 +197,7 @@ box on
 set(gca,'FontSize',15)
 
 % figure 3
-% SUP FIG 11e
+% SUP FIG 12e
 violinPlot(glomTotalF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -207,7 +207,7 @@ box on
 set(gca,'FontSize',15)
 
 % figure 4
-% SUP FIG 11f
+% SUP FIG 12f
 violinPlot(glomRelativeF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -292,7 +292,7 @@ for i=1:size(coeffF,2)
     
 end
 
-% SUP FIG 11g/h (toggle trainingonly = 0/1)
+% SUP FIG 12g/h (toggle trainingonly = 0/1)
 figure %6
 for i=1:size(coeffF,2)
     
@@ -368,14 +368,14 @@ axis square
 
 dif = mean([glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)'; glomR(2*(go),1)'-glomR(2*(go),3)']);
 percentdif = 100*mean([(glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)')./(mean([glomR(2*(go-1)+1,1)'; glomR(2*(go-1)+1,3)'])); (glomR(2*(go),1)'-glomR(2*(go),3)')./(mean([glomR(2*(go),1)'; glomR(2*(go),3)']))]);
-% SUP FIG 12g
+% SUP FIG 13g
 figure %9
 histogram(percentdif,10)
 xlabel('DM2 - DC2 (% Brp-Short density)')
 ylabel('# flies')
 axis square
 
-% SUP FIG 12h
+% SUP FIG 13h
 figure %10
 plot(percentdif,odorb,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% Brp-Short density)')
@@ -401,7 +401,7 @@ calciumpredtrain = predict(calciummodel,transpose(mean([glomR(2*(go-1)+1,1)'-glo
 
 myprediction=calciumpredtrain;
 flyTruePref=odorb(go);
-% FIG 3h
+% FIG 3g when trainingonly=0
 figure %12
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -461,7 +461,6 @@ set(gca,'FontSize',15)
 
 myprediction=ypredtrain;
 flyTruePref=odorb(go);
-% SUP FIG 11k/l (toggle glomtouse)
 figure %15
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 [r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
@@ -602,7 +601,7 @@ for j=1:highestPCtouse
     labs=[labs j*ones(1,iters)];
 end
 
-% FIG 3d
+% FIG 3d when trainingonly=0
 figure %16
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC')
@@ -666,7 +665,7 @@ set(gca,'FontSize',15)
 
 myprediction=ypred;
 flyTruePref=odorbTest(go2);
-% FIG 3g
+% FIG 3f when trainingonly=0
 figure %20
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
