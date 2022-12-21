@@ -182,7 +182,8 @@ glomsFound=glomfound;
 numFinite=sum(isfinite(responsesNoResponseRemoved),2);
 toRemove=find(numFinite/size(responsesNoResponseRemoved,2)<=fracIn);
 responsesNoResponseRemoved(toRemove,:)=[];
-
+finiteFrac = numFinite/size(responsesNoResponseRemoved,2);
+glomFiniteFrac = finiteFrac(1:13:end);
 % remove air and ethanol
 %responsesNoResponseRemoved(1:13:end)=0;
 %responsesNoResponseRemoved(8:13:end)=0;
@@ -304,10 +305,17 @@ axis([-.75 0.1 -.75 0.1])
 axis square
 linmodel
 
-% FIG 1n, FIG 2d inset
+% FIG 1L, FIG 2d inset
 figure %5
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',2)
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3.5, 2);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',ocolor, 'LineWidth',2)
+
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 xlabel('predicted preference (z-scored)')
@@ -318,6 +326,30 @@ axis([-3.5 2 -3.5 2])
 set(gca,'xtick','')
 set(gca,'ytick','')
 axis square
+
+
+xx = (myprediction-mean(myprediction))/(std(myprediction));
+yy = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+
+%modelZs = (myprediction-mean(myprediction))/(std(myprediction));
+%prefZs = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+
+%modelcutoff = -2;
+
+%figure %5 re-do
+%plot(modelZs(modelZs > modelcutoff), prefZs(modelZs > modelcutoff),'.','Color',ocolor, 'LineWidth',2)
+%[r p]=corrcoef(modelZs(modelZs > modelcutoff), prefZs(modelZs > modelcutoff));
+%text(-.25,-2.5,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
+%text(-.3,-2.8,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+%xlabel('predicted preference (z-scored)')
+%ylabel('measured preference (z-scored)')
+%title('fig 1n, bottom left outlier removed')
+%set(gca,'FontSize',15)
+%box on
+%axis([-3.5 2 -3.5 2])
+%set(gca,'xtick','')
+%set(gca,'ytick','')
+%axis square
 
 beta=linmodel.Coefficients.Estimate;
 
@@ -419,7 +451,7 @@ for i=1:flyNum
 end
 
 % plot histogram
-% SUP FIG 12c
+% SUP FIG 13c
 figure %11
 histogram(nactivity,10)
 ylabel('# flies')
@@ -427,7 +459,7 @@ xlabel('average df/f')
 axis square
 
 % plot raw values
-% SUP FIG 12d
+% SUP FIG 13d
 figure %12
 plot(nactivity,flyTruePref,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('average df/f')
@@ -457,12 +489,18 @@ beta=linmodel.Coefficients.Estimate;
 
 % FIG 2f
 figure %14
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3.5, 2.5);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)

@@ -652,7 +652,7 @@ for odortimes = 1:20
 end
 
 
-% SUP FIG 10b
+% SUP FIG 11b
 figure %8
 plot(1:20,myr2,'Color',ocolor,'LineWidth',3)
 xlabel('time')
