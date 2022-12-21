@@ -128,7 +128,7 @@ ylabel('preference score')
 set(gca,'FontSize',15)
 axis square
 
-% FIG 3j
+% FIG 3i
 figure %4
 hold on;
 linreg = linearRegressionCI2(sd, b, 1, 0, 0.0025, 0.0225);
@@ -143,7 +143,7 @@ set(gca,'FontSize',15)
 axis([0.0025 0.0225 -0.6 0.2])
 axis square
 
-% FIG 3k
+% FIG 3j
 figure %5
 hold on;
 linreg = linearRegressionCI2(sm, b, 1, 0, 1, 4);
@@ -158,7 +158,7 @@ set(gca,'FontSize',15)
 axis([1 4 -0.6 0.2])
 axis square
 
-% FIG 3i
+% FIG 3h
 figure %6
 imagesc(1-binarizedSpots{8}(:,:,65))
 colormap('gray')

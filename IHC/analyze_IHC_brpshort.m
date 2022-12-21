@@ -311,6 +311,7 @@ for i=1:size(coeffF,2)
     
 end
 
+% FIG 3e if trainingonly=1
 figure %7
 plot(coeffR(:,2),'.','Color',ocolor,'LineWidth',3,'MarkerSize',20)
 hold on
@@ -601,7 +602,7 @@ for j=1:highestPCtouse
     labs=[labs j*ones(1,iters)];
 end
 
-% FIG 3d when trainingonly=0
+% FIG 3d if trainingonly=1
 figure %16
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC')
