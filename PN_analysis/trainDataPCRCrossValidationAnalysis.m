@@ -453,7 +453,7 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-% FIG 1o PN OCT-MCH preference prediction
+% FIG 1n PN OCT-MCH preference prediction
 figure %3
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')

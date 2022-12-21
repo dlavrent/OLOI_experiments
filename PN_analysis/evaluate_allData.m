@@ -6,7 +6,7 @@ load ORN_PN_colors
 
 load analysis_dir_path
 
-manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/train');
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/alldata');
 
 publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
@@ -38,8 +38,10 @@ oldFlyNum=9000;
 oldDate=[];
 oldLobe=[];
 
+datNames=[];
 for i=1:length(manualLabelledFolders)
     currname=manualLabelledFolders(i).name;
+    datNames = [datNames, '\n', currname];
     if ~strcmp(currname(1),'.')
         if strcmp(currname(end),'1')
             currVol='Volumes';
@@ -215,6 +217,8 @@ gNames=publishedOR.gh146glomerulusNames;
 glomsFound=glomfound;
 numFinite=sum(isfinite(responsesNoResponseRemoved),2);
 toRemove=find(numFinite/size(responsesNoResponseRemoved,2)<=fracIn);
+finiteFrac = numFinite/size(responsesNoResponseRemoved,2);
+glomFiniteFrac = finiteFrac(1:13:end);
 responsesNoResponseRemoved(toRemove,:)=[];
 
 if medianResponseOrTimeCourse
@@ -497,10 +501,14 @@ end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
 
-% FIG 1p when using PN_analysis/train as manualLabelHome 
 % FIG 2g inset
 figure %7
-plot((myprediction-mean(myprediction))/std(myprediction),(flyTruePref-mean(flyTruePref))/std(flyTruePref),'.','Color',pcolor,'LineWidth',2)
+hold on;
+xVals = (myprediction-mean(myprediction))/std(myprediction);
+yVals = (flyTruePref-mean(flyTruePref))/std(flyTruePref);
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3, 2.3);
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor,'LineWidth',2)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
 set(gca,'FontSize',15)
@@ -694,7 +702,7 @@ for i=1:flyNum
 end
 
 % plot histogram of DM2 - DC2
-% SUP FIG 12e
+% SUP FIG 13e
 figure %15
 histogram(nactivity,10)
 ylabel('# flies')
@@ -702,7 +710,7 @@ xlabel('DM2 - DC2 (% df/f difference)')
 axis square
 
 % plot raw values
-% SUP FIG 12f
+% SUP FIG 13f
 figure %16
 plot(nactivity,flyTruePref,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% df/f difference)')
@@ -726,12 +734,18 @@ linmodel
 
 % FIG 2i
 figure %18
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3, 3);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)

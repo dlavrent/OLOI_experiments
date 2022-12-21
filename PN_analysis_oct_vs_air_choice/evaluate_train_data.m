@@ -188,6 +188,8 @@ gNames=publishedOR.gh146glomerulusNames;
 glomsFound=glomfound;
 numFinite=sum(isfinite(responsesNoResponseRemoved),2);
 toRemove=find(numFinite/size(responsesNoResponseRemoved,2)<=fracIn);
+finiteFrac = numFinite/size(responsesNoResponseRemoved,2);
+glomFiniteFrac = finiteFrac(1:13:end);
 responsesNoResponseRemoved(toRemove,:)=[];
 
 % remove air and ethanol
@@ -502,14 +504,20 @@ axis([-.6 .3 -.6 .3])
 axis square
 linmodel
 
-% FIG 1l
+% SUP FIG 9a
 figure %8
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -2, 3);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)
@@ -594,7 +602,7 @@ beta=linmodel.Coefficients.Estimate;
 
 
 %save trainpc currpc gNames
-save trainDataModel_averageAllDimensions linmodel gNames
+%save trainDataModel_averageAllDimensions linmodel gNames
 
 %% bootstrap
 warning('off')

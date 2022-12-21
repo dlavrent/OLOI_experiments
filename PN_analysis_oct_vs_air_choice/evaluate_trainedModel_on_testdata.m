@@ -553,19 +553,26 @@ axis([-.85 0 -.85 0])
 axis square
 set(gca,'FontSize',15)
 
-% FIG 1m
+% FIG 1m  if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
+% SUP FIG 9b if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/test');
 figure %7
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -4.5, 3.5);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals, yVals,'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)
 box on
-axis([-4.5 2 -4.5 2])
+axis([-4.5 3.5 -4.5 3.5])
 axis square
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')

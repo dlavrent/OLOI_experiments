@@ -3,7 +3,7 @@ clear all
 %close all
 load analysis_dir_path
 
-manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/train');
 
 publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);

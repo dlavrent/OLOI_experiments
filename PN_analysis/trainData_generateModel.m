@@ -241,6 +241,7 @@ gNames=publishedOR.gh146glomerulusNames;
 glomsFound=glomfound;
 numFinite=sum(isfinite(responsesNoResponseRemoved),2);
 toRemove=find(numFinite/size(responsesNoResponseRemoved,2)<=fracIn);
+finiteFrac = numFinite/size(responsesNoResponseRemoved,2);
 responsesNoResponseRemoved(toRemove,:)=[];
 
 if medianResponseOrTimeCourse
@@ -286,7 +287,7 @@ opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
 
 
-figure;
+figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
 ylabel('Variance Explained (%)')
 xlabel('PC #')
@@ -319,7 +320,7 @@ if medianResponseOrTimeCourse
         end
     end
 end
-figure;
+figure; %2
 imagesc(glomcontributionMean)
 set(gca,'ytick',1:length(gNames),'yticklabel',string(gNames),'FontSize',10)
 ytickangle(30)
@@ -336,7 +337,7 @@ flyPredictedPref=zeros(1,flyNum);
 ally=behaviorOcc';
 linmodel=fitlm(behaviorprediction,ally);
 myprediction=predict(linmodel,behaviorprediction);
-figure
+figure %3
 plot(myprediction,ally,'o','LineWidth',3)
 xlabel('Predicted Preference')
 ylabel('Measured Preference')
@@ -352,7 +353,7 @@ for i=1:flyNum
 end
 linmodelPrecorrected=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodelPrecorrected,nactivity);
-figure
+figure %4
 plot(myprediction,flyTruePref,'.','Color',pcolor,'LineWidth',3)
 for i=1:flyNum
     hold on
@@ -369,13 +370,19 @@ axis square
 corrcoef(myprediction,flyTruePref)
 linmodelPrecorrected
 
-figure
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
+figure %5
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3, 2.1);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)
@@ -427,4 +434,28 @@ linmodelRaw
 
 mypc = COEFF(:,pcstouse);
 
-%save trainDataModel_191210 linmodelRaw linmodelPrecorrected gNames mypc
+figure %16
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref)); 
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -4.5, 3.5);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
+for i=1:flyNum
+   hold on
+   %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
+end
+[r p]=corrcoef(xVals,yVals);
+text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
+text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
+set(gca,'FontSize',15)
+box on
+%axis([-4.5 3.5 -4.5 3.5])
+xlabel('predicted preference (z-scored)')
+ylabel('measured preference (z-scored)')
+%set(gca,'xtick','')
+%set(gca,'ytick','')
+axis square
+
+%save trainDataModel linmodelRaw linmodelPrecorrected gNames mypc

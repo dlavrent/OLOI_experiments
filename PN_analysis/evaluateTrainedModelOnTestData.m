@@ -6,7 +6,7 @@ rng('default')
 load ORN_PN_colors
 load analysis_dir_path
 
-manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/test');
+manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/alldata');
 trainedModel = load('trainDataModel.mat');
 publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
@@ -248,7 +248,6 @@ responsesNoResponseRemoved=responsesNoResponseRemoved';
 opt = statset('pca');
 opt.Display='iter';
 [COEFF, SCORE, LATENT, TSQUARED, EXPLAINED] = pca(responsesNoResponseRemoved','Options',opt);
-
 
 figure; %1
 plot(cumsum(EXPLAINED),'o-','LineWidth',3)
@@ -551,19 +550,26 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-% FIG 1q
+% FIG 1p if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/alldata');
+% SUP FIG 9d if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/test');
 figure %7
-plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',pcolor, 'LineWidth',3)
+hold on;
+xVals = (myprediction-mean(myprediction))/(std(myprediction));
+yVals = (flyTruePref-mean(flyTruePref))/(std(flyTruePref));
+linreg = linearRegressionCI2(xVals, yVals.', 1, 0, -3, 2.3);
+
+areaBar(linreg.xVals,polyval(linreg.pOverall,linreg.xVals),2*std(linreg.fits),[0 0 0],[0.9 0.9 0.9])
+plot(xVals,yVals,'.','Color',pcolor, 'LineWidth',3)
 for i=1:flyNum
    hold on
    %text(myprediction(i)+0.01,flyTruePref(i),num2str(i),'FontSize',15)
 end
-[r p]=corrcoef((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)));
+[r p]=corrcoef(xVals,yVals);
 text(-.25,-.25,['r = ' num2str(r(1,2),'%2.2f')],'FontSize',15)
 text(-.3,-.25,['p = ' num2str(p(1,2),'%2.2f')],'FontSize',15)
 set(gca,'FontSize',15)
 box on
-axis([-2.1 2.1 -2.1 2.1])
+axis([-3 2.3 -3 2.3])
 axis square
 xlabel('predicted preference (z-scored)')
 ylabel('measured preference (z-scored)')
