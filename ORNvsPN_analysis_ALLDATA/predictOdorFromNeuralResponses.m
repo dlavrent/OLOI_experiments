@@ -503,7 +503,7 @@ end
 orcoacc = odorpredacc;
 orcoacc_shuff = odorpredacc_shuff;
 
-% SUP FIG 11d
+% SUP FIG odor decoding accuracy vs time
 figure
 hold on
 plot(1.2*(1:20),orcoacc,'-','Color',ocolor,'LineWidth',3,'MarkerSize',15)

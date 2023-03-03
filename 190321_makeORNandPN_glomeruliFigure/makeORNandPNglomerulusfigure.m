@@ -42,7 +42,7 @@ clusterInfoU=clusterInfoU(inds);
 grnResponse=grnResponse(:,inds,:);
 
 
-% FIG 1e
+% FIG ORN glomerulus masks
 % figure 1
 showClusters(clusterVolU,clusterInfoU,clusterLabels)
 axis off
@@ -85,7 +85,7 @@ clusterVolU=clusterVolU(inds);
 clusterInfoU=clusterInfoU(inds);
 grnResponse=grnResponse(:,inds,:);
 
-% FIG 1e
+% FIG PN glomerulus masks
 % figure 2
 showClusters(clusterVolU,clusterInfoU,clusterLabels)
 axis off

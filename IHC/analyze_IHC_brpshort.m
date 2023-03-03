@@ -157,7 +157,7 @@ end
 
 figure %1
 subplot(1,3,1)
-% SUP FIG 12a
+% SUP FIG volume of left vs right AL
 plot(glomSize((1:flyNum)*2-1,:),glomSize((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('volume (um^3)')
 xlabel('left lobe')
@@ -166,7 +166,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 6200 0 6200])
 subplot(1,3,2)
-% SUP FIG 12b
+% SUP FIG Brp-Short fluorescence left vs right
 plot(glomTotalF((1:flyNum)*2-1,:),glomTotalF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 title('total fluorescence')
 xlabel('left lobe')
@@ -175,7 +175,7 @@ set(gca,'FontSize',15)
 axis square
 axis([0 5e5 0 5e5])
 subplot(1,3,3)
-% SUP FIG 12c
+% SUP FIG Brp-Short fluorescence density left vs right
 plot(glomRelativeF((1:flyNum)*2-1,:),glomRelativeF((1:flyNum)*2,:),'.','LineWidth',2,'MarkerSize',15)
 legend(glomeruliToSegment)
 legend boxoff
@@ -187,7 +187,7 @@ axis square
 axis([10 80 10 80])
 
 % figure 2
-% SUP FIG 12d
+% SUP FIG glomerulus volumes
 violinPlot(glomSize,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -197,7 +197,7 @@ box on
 set(gca,'FontSize',15)
 
 % figure 3
-% SUP FIG 12e
+% SUP FIG Brp-Short fluoresence for 4 glomeruli
 violinPlot(glomTotalF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -207,7 +207,7 @@ box on
 set(gca,'FontSize',15)
 
 % figure 4
-% SUP FIG 12f
+% SUP FIG Brp-Short fluorescence density for 4 glomeruli
 violinPlot(glomRelativeF,[ocolor])
 set(gca,'XTickLabel',glomeruliToSegment)
 xtickangle(30)
@@ -292,7 +292,7 @@ for i=1:size(coeffF,2)
     
 end
 
-% SUP FIG 12g/h (toggle trainingonly = 0/1)
+% SUP FIG PC loadings training/testing data (toggle trainingonly = 0/1)
 figure %6
 for i=1:size(coeffF,2)
     
@@ -311,7 +311,7 @@ for i=1:size(coeffF,2)
     
 end
 
-% FIG 3e if trainingonly=1
+% FIG ORN Brp-Short PC 2 loadings if trainingonly=1
 figure %7
 plot(coeffR(:,2),'.','Color',ocolor,'LineWidth',3,'MarkerSize',20)
 hold on
@@ -341,7 +341,8 @@ ypredtrain = predict(pcmodel,transpose(mean([measureToUse(2*go-1,componentR)'; m
 
 myprediction=ypredtrain;
 flyTruePref=odorb(go);
-% FIG 3f if toggletrainingonly=1
+% FIG OCT-MCH preference predicted by ORN Brp-Short density PC2 if trainingonly=0
+% SUP FIG when trainingonly=1
 figure %8
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -369,14 +370,14 @@ axis square
 
 dif = mean([glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)'; glomR(2*(go),1)'-glomR(2*(go),3)']);
 percentdif = 100*mean([(glomR(2*(go-1)+1,1)'-glomR(2*(go-1)+1,3)')./(mean([glomR(2*(go-1)+1,1)'; glomR(2*(go-1)+1,3)'])); (glomR(2*(go),1)'-glomR(2*(go),3)')./(mean([glomR(2*(go),1)'; glomR(2*(go),3)']))]);
-% SUP FIG 13g
+% SUP FIG histogram of ORN DM2-DC2 Brp-Short density
 figure %9
 histogram(percentdif,10)
 xlabel('DM2 - DC2 (% Brp-Short density)')
 ylabel('# flies')
 axis square
 
-% SUP FIG 13h
+% SUP FIG scatterplot of OCT-MCH pref vs ORN DM2-DC2 Brp-Short density
 figure %10
 plot(percentdif,odorb,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% Brp-Short density)')
@@ -402,7 +403,7 @@ calciumpredtrain = predict(calciummodel,transpose(mean([glomR(2*(go-1)+1,1)'-glo
 
 myprediction=calciumpredtrain;
 flyTruePref=odorb(go);
-% FIG 3g when trainingonly=0
+% FIG OCT-MCH preference predicted by ORN Brp-Short density in DM2 - DC2 when trainingonly=0
 figure %12
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -602,7 +603,7 @@ for j=1:highestPCtouse
     labs=[labs j*ones(1,iters)];
 end
 
-% FIG 3d if trainingonly=1
+% FIG ORN Brp-Short-based OCT-MCH preference prediction if trainingonly=1
 figure %16
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC')
@@ -666,7 +667,8 @@ set(gca,'FontSize',15)
 
 myprediction=ypred;
 flyTruePref=odorbTest(go2);
-% FIG 3f when trainingonly=0
+% FIG OCT-MCH preference predicted by ORN Brp-Short density PC2 if trainingonly=0
+% SUP FIG when trainingonly=1
 figure %20
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -759,7 +761,7 @@ box off
 text(0,0.01,['p = ' num2str(ppc)],'FontSize',15)
 set(gca,'FontSize',15)
 
-% FIG 3c
-% figure 25
+% FIG example segmentation masks
+% figure %25
 example_fly_mask = fullfile(analysis_dir_path, '\IHC\OrcoBrpshort\autoSegmentation\190404_orcobrpshort_behaviorAndImaging\fly12__autoseg_xystep11_labelled.mat');
 showIHCsegmented(example_fly_mask)

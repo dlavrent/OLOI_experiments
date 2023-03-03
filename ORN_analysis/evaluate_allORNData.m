@@ -526,7 +526,7 @@ ylabel('PC 2 loadings')
 box off
 set(gca,'FontSize',15)
 
-% FIG 1o
+% FIG measured pref vs predicted OCT-MCH ORN PC 1
 figure %9
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -648,7 +648,6 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-% SUP FIG 11i
 figure %11
 plot((myprediction-mean(myprediction))/(std(myprediction)),(flyTruePref-mean(flyTruePref))/(std(flyTruePref)),'.','Color',ocolor, 'LineWidth',3,'MarkerSize',15)
 for i=1:flyNum

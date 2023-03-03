@@ -479,7 +479,7 @@ for i=1:flyNum
 end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
-% FIG 2a inset
+% FIG PN PC1 loadings inset
 figure %7
 plot((myprediction-mean(myprediction))/std(myprediction),(flyTruePref-mean(flyTruePref))/std(flyTruePref),'.','Color',pcolor,'LineWidth',2)
 xlabel('Predicted Preference')
@@ -512,7 +512,7 @@ ylabel('PC 1 loadings')
 axis([0 66 -.01 .32])
 set(gca,'FontSize',15)
 
-% FIG 2a loadings
+% FIG PN PC1 loadings
 figure; %9
 bar(PCContribution,'FaceColor',pcolor)
 hold on
@@ -532,7 +532,7 @@ ylabel('PC 1 loadings')
 axis([0 66 -.05 .32])
 set(gca,'FontSize',15)
 
-% FIG 2b interpreted loadings
+% FIG interpreted PN PC1 loadings
 figure; %10
 bar(ones(1,65),'FaceColor',pcolor)
 hold on
@@ -594,7 +594,7 @@ end
 
 
 
-
+% SUP FIG histogram of average PN df/f across coding dimensions
 % plot histogram
 figure %13
 histogram(nactivity,10)
@@ -602,6 +602,7 @@ ylabel('# flies')
 xlabel('average df/f')
 axis square
 
+% SUP FIG scatterplot with OCT-AIR pref
 % plot raw values
 figure %14
 plot(nactivity,flyTruePref,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
@@ -629,7 +630,7 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 
-% FIG 2c
+% FIG measured pref vs predicted pref PN PC1
 figure %16
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

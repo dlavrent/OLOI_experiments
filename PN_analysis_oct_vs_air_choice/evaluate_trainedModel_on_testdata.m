@@ -552,9 +552,9 @@ box on
 axis([-.85 0 -.85 0])
 axis square
 set(gca,'FontSize',15)
-
-% FIG 1m  if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
-% SUP FIG 9b if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/test');
+% FIG measured pref vs predicted OCT-AIR PN PC1
+% FIG 1M if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/alldata');
+% SUP FIG 2B if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis_oct_vs_air_choice/test');
 figure %7
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

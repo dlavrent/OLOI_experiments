@@ -561,7 +561,7 @@ set(gca,'FontSize',15)
 
 corrcoef(myprediction,flyTruePref)
 
-% FIG 2k
+% FIG yoked control figure
 figure %4
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

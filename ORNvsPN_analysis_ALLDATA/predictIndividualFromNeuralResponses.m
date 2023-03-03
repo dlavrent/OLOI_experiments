@@ -471,6 +471,7 @@ for fv=fvs
 end
 
 %%
+% FIG individual identity decoding accuracy vs. %  variance retained
 figure %1
 plot(actualfvo,orcoacc,'x-','Color',ocolor,'LineWidth',3,'MarkerSize',10)
 hold on

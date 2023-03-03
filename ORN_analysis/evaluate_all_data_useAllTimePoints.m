@@ -4,9 +4,10 @@ clear all
 
 load ORN_PN_colors
 
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/ORN_analysis/ornflies';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'ORN_analysis/ornflies');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -413,9 +414,10 @@ clear all
 
 load ORN_PN_colors
 
-manualLabelHome='/Users/mattchurgin/Dropbox/flyimaging/analysis/ORN_analysis/ornflies';
+load analysis_dir_path
+manualLabelHome=fullfile(analysis_dir_path, 'ORN_analysis/ornflies');
 
-publishedOdorPath='/Users/mattchurgin/Desktop/dblab/mattFunctions/odorpanelResponsesDoOR/odorPanel_12/odorPanel_12_DoORData.mat';
+publishedOdorPath=fullfile(analysis_dir_path, 'utilities/odorPanel_12_DoORData.mat');
 load(publishedOdorPath);
 
 manualLabelledFolders=dir(manualLabelHome);
@@ -657,8 +659,8 @@ for odortimes = 1:20
 end
 
 
-
-figure
+% SUP FIG OCT-MCH pref prediction vs time, ORN PC1
+figure %8;
 plot(1:20,myr2,'Color',ocolor,'LineWidth',3)
 xlabel('time')
 ylabel('R^2')

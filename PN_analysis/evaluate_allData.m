@@ -501,7 +501,7 @@ end
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
 
-% FIG 2g inset
+% FIG PN PC2 inset
 figure %7
 hold on;
 xVals = (myprediction-mean(myprediction))/std(myprediction);
@@ -542,7 +542,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 currpc=COEFF(:,pcstouse);
 
-% FIG 2g loadings
+% FIG PN PC2 loadings
 figure; %9
 bar(PCContribution,'FaceColor',pcolor)
 hold on
@@ -565,7 +565,7 @@ set(gca,'FontSize',15)
 octmchselect=ones(1,65);
 octmchselect([14:39 53:65])=0;
 octmchselect(40:52)=-1;
-% FIG 2h
+% FIG interpreted PN PC2 loadings
 figure; %10
 bar(octmchselect,'FaceColor',pcolor)
 hold on
@@ -701,16 +701,14 @@ for i=1:flyNum
    nactivity(i,:)=mean(behaviorprediction(flyindices{i},:));
 end
 
-% plot histogram of DM2 - DC2
-% SUP FIG 13e
+% SUP FIG histogram of DM2 - DC2
 figure %15
 histogram(nactivity,10)
 ylabel('# flies')
 xlabel('DM2 - DC2 (% df/f difference)')
 axis square
 
-% plot raw values
-% SUP FIG 13f
+% SUP FIG scatterplot with OCT-AIR pref
 figure %16
 plot(nactivity,flyTruePref,'.','Color',pcolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('DM2 - DC2 (% df/f difference)')
@@ -732,7 +730,7 @@ box off
 linmodel
 
 
-% FIG 2i
+% FIG measured pref vs predicted pref from PN PC2
 figure %18
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

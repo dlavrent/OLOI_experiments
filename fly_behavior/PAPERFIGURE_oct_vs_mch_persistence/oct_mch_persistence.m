@@ -46,7 +46,7 @@ hour3all([missing1 missing2])=[];
 hour0allPreodor([missing1 missing2])=[];
 hour3allPreodor([missing1 missing2])=[];
 
-% SUP FIG 1d
+% SUP FIG OCT-MCH PERSISTENCE 3h
 figure %1
 plot(hour0all,hour3all,'k.','LineWidth',3)
 [r p1]=corrcoef(hour0all,hour3all);
@@ -107,7 +107,7 @@ hour24all([missing1 missing2])=[];
 hour0allPreodor([missing1 missing2])=[];
 hour24allPreodor([missing1 missing2])=[];
 
-% SUP FIG 1e
+% SUP FIG OCT-MCH PERSISTENCE 24h
 figure %2
 plot(hour0all,hour24all,'k.','LineWidth',2,'MarkerSize',15)
 [r p1]=corrcoef(hour0all,hour24all);

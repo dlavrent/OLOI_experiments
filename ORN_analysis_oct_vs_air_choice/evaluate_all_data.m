@@ -305,7 +305,7 @@ axis([-.75 0.1 -.75 0.1])
 axis square
 linmodel
 
-% FIG 1L, FIG 2d inset
+% FIG measured pref vs predicted OCT-AIR ORN PC 1
 figure %5
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -372,7 +372,7 @@ axis([0 66 -.025 .35])
 set(gca,'FontSize',15)
 currpc=PCContribution;
 
-% FIG 2d loadings
+% FIG ORN PC1 loadings
 figure; %7
 bar(PCContribution,'FaceColor',ocolor)
 hold on
@@ -392,7 +392,7 @@ ylabel('PC 1 loadings')
 axis([0 66 -.05 .32])
 set(gca,'FontSize',15)
 
-% FIG 2e interpreted loadings
+% FIG interpreted ORN PC1 loadings
 figure; %8
 bar(ones(1,65),'FaceColor',ocolor)
 hold on
@@ -451,7 +451,7 @@ for i=1:flyNum
 end
 
 % plot histogram
-% SUP FIG 13c
+% SUP FIG histogram of average ORN df/f across coding dimensions
 figure %11
 histogram(nactivity,10)
 ylabel('# flies')
@@ -459,7 +459,7 @@ xlabel('average df/f')
 axis square
 
 % plot raw values
-% SUP FIG 13d
+% SUP FIG scatterplot with OCT-AIR pref
 figure %12
 plot(nactivity,flyTruePref,'.','Color',ocolor, 'LineWidth',3,'MarkerSize',20)
 xlabel('average df/f')
@@ -487,7 +487,7 @@ linmodel
 beta=linmodel.Coefficients.Estimate;
 
 
-% FIG 2f
+% FIG measured pref vs predicted pref from ORN PC1 loadings
 figure %14
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -751,7 +751,7 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-% FIG 1k ORN OCT-AIR preference prediction
+% FIG ORN OCT-AIR preference prediction
 figure %17
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',ocolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')

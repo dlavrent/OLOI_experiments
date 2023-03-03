@@ -96,7 +96,7 @@ for i=1:length(behaviorcorr)
     end
 end
 
-% SUP FIG 8b
+% SUP FIG heatmap fraction of behavioral variance explained
 figure %2
 imagesc(latentVariableCorr)
 hold on

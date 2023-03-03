@@ -660,7 +660,7 @@ for odortimes = 1:20
 end
 
 
-% SUP FIG 10a
+% SUP FIG OCT-AIR pref prediction vs time, PN PC1
 figure %8
 plot(1:20,myr2,'Color',pcolor,'LineWidth',3)
 xlabel('time')

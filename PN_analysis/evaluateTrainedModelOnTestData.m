@@ -549,9 +549,9 @@ set(gca,'FontSize',15)
 
 
 corrcoef(myprediction,flyTruePref)
-
-% FIG 1p if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/alldata');
-% SUP FIG 9d if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/test');
+% FIG measured pref vs predicted OCT-MCH PN PC2
+% FIG 1P if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/alldata');
+% SUP FIG 2D if manualLabelHome=fullfile(analysis_dir_path, 'PN_analysis/test');
 figure %7
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

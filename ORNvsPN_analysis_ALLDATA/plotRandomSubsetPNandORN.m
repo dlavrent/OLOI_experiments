@@ -485,9 +485,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% SUP FIG 3 PNs
+% DATA PNs heatmap individual glom-odor responses
 vectorPixels(g2,hot(256),[0 0 0])
-% SUP FIG 3 ORNs
+% DATA ORNs heatmap individual glom-odor responses
 vectorPixels(o2,hot(256),[0 0 0])
 
 % mean fill
@@ -510,9 +510,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% FIG 1h PNs
+% FIG odor/glom vs individuals PNs
 vectorPixels(g2,hot(256),[0 0 0])
-% FIG 1h ORNs
+% FIG odor/glom vs individuals ORNs
 vectorPixels(o2,hot(256),[0 0 0])
 
 %% plot correlation matrix
@@ -527,10 +527,10 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% SUP FIG 6 PNs 
+% DATA PNs correlation matrix
 vectorPixels(g2,cm.egoalley,[0 0 0])
 axis square
-% SUP FIG 6 ORNs
+% DATA ORNs correlation matrix
 vectorPixels(o2,cm.egoalley,[0 0 0])
 axis square
 
@@ -545,7 +545,7 @@ pnMean=squeeze(nanmean(pnLobeMean,1));
 ornLobeMean=squeeze(nanmean(responsesTensorO(ornflies,:,:,:,:),2));
 ornMean=squeeze(nanmean(ornLobeMean,1));
 
-% FIG 1F
+% FIG df/f vs time DM2/DC2 ORN/PN OCT/MCH
 figure %3
 subplot(2,2,3)
 currglom=1;
@@ -665,7 +665,7 @@ odorNames{11}='4-methylcyclohexanol';
 odorNames{12}='pentyl acetate';
 odorNames{13}='1-butanol';
 
-% SUP FIG 2
+% DATA glomerulus-odor time-dependent responses
 figure %4
 k=0;
 for j= 1:13
@@ -734,9 +734,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% FIG 1g PNs
+% FIG heatmap glom vs odor responses in PNs
 vectorPixels(g2,hot(256),[0 0 0])
-% FIG 1g ORNs
+% FIG heatmap glom vs odor responses in ORNs
 vectorPixels(o2,hot(256),[0 0 0])
 
 % for making colorbar
@@ -748,7 +748,7 @@ colormap(hot)
 
 % plot GH146 vs Orco activation
 
-% SUP FIG 4a
+% SUP FIG PN vs ORN peak calcium response
 figure %6
 %plot(orc,gh,'k.','LineWidth',3,'MarkerSize',15)
 colorms=parula(5);
@@ -781,7 +781,7 @@ end
 
 % plot response correlation between glomerulus measured in ORNs and PNs
 corrmat=corr(ormatrix',ghmatrix');
-% SUP FIG 4b
+% SUP FIG heatmap correlation matrix PN vs ORN
 figure %8
 imagesc(corrmat)
 set(gca,'ytick',1:length(gNamesO))
@@ -901,7 +901,7 @@ for ii=1:nshuffles
     end
 end
 
-% SUP FIG 4c
+% SUP FIG calcium response vs DoOR response
 figure; %9
 plot(meanPublishedResponseorco,orc,'.','Color',ocolor,'LineWidth',2,'MarkerSize',15)
 hold on
@@ -919,7 +919,7 @@ axis square
 set(gca,'xtick','')
 set(gca,'ytick','')
 
-% SUP FIG 4d
+% SUP FIG calcium response vs DoOR by glomerulus
 figure; %10
 for i = 1:length(gNames)
     subplot(1,length(gNames),i)
@@ -1214,7 +1214,7 @@ opt = statset('pca');
 opt.Display='iter';
 [COEFFO, SCOREO, LATENTO, TSQUAREDO, EXPLAINEDO] = pca(responsesNoResponseRemovedO','Options',opt);
 
-% FIG 1i
+% FIG variance explaned vs. PC
 figure; %22
 plot(cumsum(EXPLAINEDO),'-','Color',ocolor,'LineWidth',3,'MarkerSize',15)
 hold on
@@ -1229,8 +1229,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 set(gca,'FontSize',15)
 
-% plot pc loadings  grouped by glomerulus
-% SUP FIG 7b
+% DATA PN PC loadings grouped by glomerulus
 figure; %23
 for i=1:10
     subplot(2,5,i)
@@ -1254,7 +1253,7 @@ for i=1:10
     set(gca,'ytick','')
 end
 
-% SUP FIG 7a
+% DATA ORN PC loadings grouped by glomerulus
 figure; %24
 for i=1:10
     subplot(2,5,i)
@@ -1277,8 +1276,7 @@ for i=1:10
     set(gca,'ytick','')
 end
 
-% plot pc loadings grouped by odor
-% SUP FIG 7d
+% DATA PN PC loadings grouped by odor
 figure; %25
 for i=1:10
     subplot(2,5,i)
@@ -1309,8 +1307,7 @@ for i=1:10
 end
 
 
-% plot pc loadings grouped by odor
-% SUP FIG 7c
+% DATA ORN PC loadigns grouped by odor
 figure; %26
 for i=1:10
     subplot(2,5,i)
@@ -1756,7 +1753,7 @@ allFlies=1:(flyNum);
 msize=15;
 lsize=1;
 
-% FIG 1i (PNs)
+% FIG variance explained vs. PC (PNs)
 figure %33
 hold on
 i=0;
@@ -1801,7 +1798,7 @@ allFlies=1:(flyNumO);
 
 mycmapO=mycmap;
 
-% FIG 1i (ORNs)
+% FIG variance explained vs. PC (ORNs)
 figure %34
 hold on
 i=0;
@@ -1851,7 +1848,7 @@ allFlies=1:(flyNum);
 
 msize=10;
 lsize=2;
-% SUP FIG 5b PN left lobe
+% SUP FIG PN left lobe
 figure %35
 hold on
 i=0;
@@ -1885,7 +1882,7 @@ xlabel(['PC 1 Score (' num2str(EXPLAINED(1),'%0.1f') '%)'])
 ylabel(['PC 2 Score (' num2str(EXPLAINED(2),'%0.1f') '%)'])
 set(gca,'FontSize',15)
 
-% SUP FIG 5b PN right lobe
+% SUP FIG PN right lobe
 figure %36
 hold on
 i=0;
@@ -1928,7 +1925,7 @@ pcstouse=pcsWithinVariance(end);
 disp(['Using ' num2str(pcstouse) ' PCs'])
 
 mycmapO=mycmap;
-% SUP FIG 5b ORN left lobe
+% SUP FIG ORN left lobe
 figure %37
 hold on
 i=0;
@@ -1962,7 +1959,7 @@ xlabel(['PC 1 Score (' num2str(EXPLAINEDO(1),'%0.1f') '%)'])
 ylabel(['PC 2 Score (' num2str(EXPLAINEDO(2),'%0.1f') '%)'])
 set(gca,'FontSize',15)
 
-% SUP FIG 5b ORN right lobe
+% SUP FIG ORN right lobe
 figure %38
 hold on
 i=0;
@@ -2014,7 +2011,7 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-% SUP FIG 5c within lobe ORN/PN
+% SUP FIG within lobe ORN/PN
 figure %39
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
@@ -2049,7 +2046,7 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-% SUP FIG 5c across lobe ORN/PN
+% SUP FIG across lobe ORN/PN
 figure %40
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
@@ -2085,7 +2082,7 @@ for i=2
     colors(i,:)=pcolor;
 end
 
-% SUP FIG 5c across fly ORN/PN
+% SUP FIG across fly ORN/PN
 figure %41
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 ylabel('coding space distance')
@@ -2333,7 +2330,7 @@ groupings=[groupings 4*ones(1,flyNum)];
 
 
 colors=[ocolor; pcolor; ocolor; pcolor];
-% FIG 1j
+% FIG Euclidean distance in full coding space
 figure %48
 boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','')
 %boxplot(combined,groupings,'BoxStyle','filled','Colors',colors)

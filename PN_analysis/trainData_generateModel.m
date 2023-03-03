@@ -370,6 +370,7 @@ axis square
 corrcoef(myprediction,flyTruePref)
 linmodelPrecorrected
 
+% FIG OCT-MCH preference predicted from PN PC2 (train)
 figure %5
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));

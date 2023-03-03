@@ -84,7 +84,7 @@ tv(todelete)=[];
 t(todelete)=[];
 
 [r p] = corrcoef(z-zp,t-tp);
-% SUP FIG 1b
+% SUP FIG OCT-AIR persistence 3h
 figure; %1
 plot(z-zp,t-tp,'k.','LineWidth',3)
 text(0, 0, ['r = ' num2str(r(1,2))],'FontSize',15)

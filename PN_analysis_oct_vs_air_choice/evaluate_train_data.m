@@ -504,7 +504,7 @@ axis([-.6 .3 -.6 .3])
 axis square
 linmodel
 
-% SUP FIG 9a
+% SUP FIG OCT-AIR preference predicted from PN PC1 (train)
 figure %8
 hold on;
 xVals = (myprediction-mean(myprediction))/(std(myprediction));
@@ -844,7 +844,7 @@ set(gca,'FontSize',15)
 testR2t=testR2';
 testR2shuffledt=testR2shuffled';
 labs=[ones(1,iters) 2*ones(1,iters) 3*ones(1,iters) 4*ones(1,iters) 5*ones(1,iters)];
-% FIG 1k PN OCT-AIR preference prediction
+% FIG PN OCT-AIR preference prediction
 figure %14
 boxplot(testR2t(:),labs,'plotstyle','compact','BoxStyle','filled','Colors',pcolor,'medianstyle','target','symbol','','outliersize',1)
 xlabel('PC used for linear model')
