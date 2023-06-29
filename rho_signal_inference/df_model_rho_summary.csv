@@ -1,0 +1,9 @@
+experiment,predictor type,model predictor,save_tag,R^2 model,R^2 predictor,R^2 behav,num flies,rho_05,rho_50,rho_95
+OCT vs AIR,calcium,ORN PC 1,calcium-ORN-PC-1,0.23,0.77,0.27,30,0.24,0.64,0.92
+OCT vs AIR,calcium,ORN interpreted PC 1,calcium-ORN-interpreted-PC-1,0.25,0.77,0.27,30,0.27,0.67,0.94
+OCT vs AIR,calcium,PN PC 1,calcium-PN-PC-1,0.084,0.77,0.27,53,0.08,0.4,0.69
+OCT vs AIR,calcium,PN interpreted PC 1,calcium-PN-interpreted-PC-1,0.098,0.77,0.27,53,0.11,0.43,0.72
+OCT vs MCH,calcium,ORN PC 1,calcium-ORN-PC-1,0.031,0.77,0.12,35,0.02,0.3,0.74
+OCT vs MCH,brp,ORN Brp-Short PC 2,brp-ORN-Brp-Short-PC-2,0.088,0.75,0.12,53,0.11,0.5,0.85
+OCT vs MCH,calcium,PN PC 2,calcium-PN-PC-2,0.2,0.77,0.12,69,0.44,0.75,0.96
+OCT vs MCH,calcium,PN interpreted PC 2,calcium-PN-interpreted-PC-2,0.12,0.77,0.12,69,0.25,0.59,0.88
