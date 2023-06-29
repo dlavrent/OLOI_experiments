@@ -246,6 +246,37 @@ end
 
 [coeffR scoreR latentR tsqR explainedR] = pca(glomR); % relative F (F/volume)
 
+
+nflylobes = size(glomR, 1);
+ndim = size(glomR, 2);
+
+glomRSHUFFLE = zeros(size(glomR)); 
+for i=1:nflylobes
+    curflylobetemp = glomR(i, :);
+    glomRSHUFFLE(i, :) = curflylobetemp(randperm(ndim));
+end
+
+[coeffRSHUF scoreRSHUF latentRSHUF tsqRSHUF explainedRSHUF] = pca(glomRSHUFFLE); % relative F (F/volume)
+
+plotndimstoshow = 4;
+%figure;
+%hold on
+%plot(1:plotndimstoshow, explainedR(1:plotndimstoshow),'LineWidth',2);
+%plot(1:plotndimstoshow, explainedRSHUF(1:plotndimstoshow),'LineWidth',2);
+%xlabel('PC #')
+%ylabel('% variance explained')
+%legend('relative Brp', 'shuffled relative Brp')
+
+tmpR = find(explainedR - explainedRSHUF < 0);
+lastkeptIHCPC = tmpR(1)-1;
+
+total_explained_var_IHC = sum(explainedR(1:lastkeptIHCPC))
+
+%figure;
+%hold on
+%plot(1:ndim, cumsum(explainedR));
+%plot(1:ndim, cumsum(explainedRSHUF));
+
 figure %5
 for i=1:size(coeffF,2)
     
