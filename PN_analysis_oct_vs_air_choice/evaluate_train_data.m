@@ -150,6 +150,24 @@ for i=1:flyNum
     flyindicesR{i}=temp4;
 end
 
+cell_strs = cell(1, flyNum);
+for i = 1:flyNum
+    ls = flyindicesL{i};
+    rs = flyindicesR{i};
+    curstr = sprintf('L%dR%d', length(ls), length(rs));
+    cell_strs{i} = curstr;
+end 
+CHAR_CELL_STRs = categorical(cell_strs);
+
+curstr_categories = categories(CHAR_CELL_STRs);
+num_in_categories = countcats(CHAR_CELL_STRs);
+ncats = length(curstr_categories);
+FLYNUM_SUMMARY = cell(2, ncats);
+FLYNUM_SUMMARY(1, :) = curstr_categories;
+for csi = 1:ncats
+    FLYNUM_SUMMARY{2, csi} = num_in_categories(csi);
+end 
+FLYNUM_SUMMARY = FLYNUM_SUMMARY'
 
 % shuffle data points that correspond to each fly
 flyindicesShuffled=cell(1,flyNum);
@@ -479,12 +497,28 @@ set(gca,'FontSize',15)
 box off
 linmodel
 
+num_L2R2 = num_in_categories(ncats);
+disp(sprintf('num L2R2: %d', num_L2R2));
 nactivity=zeros(flyNum,length(pcstouse));
+lrtri1s = zeros(1, num_L2R2);
+lrtri2s = zeros(1, num_L2R2);
+lrcntr = 1;
 for i=1:flyNum
    flyTruePref(i)=mean(ally(flyindices{i}));
    flyPredictedPref(i)=mean(mean(behaviorprediction(flyindices{i},:)));
    nactivity(i,:)=mean(behaviorprediction(flyindices{i},:));
+   
+   mycurls = behaviorprediction(flyindicesL{i});
+   mycurrs = behaviorprediction(flyindicesR{i});
+   if (length(mycurls) == 2 ) && (length(mycurrs) == 2)       
+       lrtri1s(lrcntr) = (mycurls(1) + mycurrs(1))/2;
+       lrtri2s(lrcntr) = (mycurls(2) + mycurrs(2))/2;
+       lrcntr = lrcntr + 1;
+   end
 end
+[rlrtri, plrtri] = corrcoef(lrtri1s, lrtri2s);
+disp(sprintf('r for %d mean L+R tria1 1 to 2 scores: %f', num_L2R2, rlrtri(1,2)));
+
 linmodel=fitlm(nactivity,flyTruePref);
 myprediction=predict(linmodel,nactivity);
 figure %7

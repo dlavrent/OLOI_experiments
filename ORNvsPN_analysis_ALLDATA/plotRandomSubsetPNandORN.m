@@ -414,7 +414,7 @@ for i=1:length(flyindicesO)
 end
 
 
-plotindividualodorpanels=0;
+plotindividualodorpanels=1;
 if plotindividualodorpanels
     % resize raw data for plotting
     ghrawplot=NaN*zeros(length(flyindices)*5,13*4);
@@ -485,9 +485,9 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% DATA PNs heatmap individual glom-odor responses
+% SUP FIG PNs heatmap individual glom-odor responses
 vectorPixels(g2,hot(256),[0 0 0])
-% DATA ORNs heatmap individual glom-odor responses
+% SUP FIG ORNs heatmap individual glom-odor responses
 vectorPixels(o2,hot(256),[0 0 0])
 
 % mean fill
@@ -527,10 +527,10 @@ g2=255*g2/maxc;
 o2=255*o2/maxc;
 g2=g2+1;
 o2=o2+1;
-% DATA PNs correlation matrix
+% SUPFIG PNs correlation matrix
 vectorPixels(g2,cm.egoalley,[0 0 0])
 axis square
-% DATA ORNs correlation matrix
+% SUPFIG ORNs correlation matrix
 vectorPixels(o2,cm.egoalley,[0 0 0])
 axis square
 
@@ -665,7 +665,7 @@ odorNames{11}='4-methylcyclohexanol';
 odorNames{12}='pentyl acetate';
 odorNames{13}='1-butanol';
 
-% DATA glomerulus-odor time-dependent responses
+% SUP FIG glomerulus-odor time-dependent responses
 figure %4
 k=0;
 for j= 1:13
@@ -738,6 +738,9 @@ o2=o2+1;
 vectorPixels(g2,hot(256),[0 0 0])
 % FIG heatmap glom vs odor responses in ORNs
 vectorPixels(o2,hot(256),[0 0 0])
+
+%[coeffP scoreP latentP tsqP explainedP] = pca(g2);
+%[coeffO scoreO latentO tsqO explainedO] = pca(o2);
 
 % for making colorbar
 figure; %5
@@ -1229,7 +1232,7 @@ set(gca,'xtick','')
 set(gca,'ytick','')
 set(gca,'FontSize',15)
 
-% DATA PN PC loadings grouped by glomerulus
+% SUP FIG PN PC loadings grouped by glomerulus
 figure; %23
 for i=1:10
     subplot(2,5,i)
@@ -1253,7 +1256,7 @@ for i=1:10
     set(gca,'ytick','')
 end
 
-% DATA ORN PC loadings grouped by glomerulus
+% SUP FIG ORN PC loadings grouped by glomerulus
 figure; %24
 for i=1:10
     subplot(2,5,i)
@@ -1276,7 +1279,7 @@ for i=1:10
     set(gca,'ytick','')
 end
 
-% DATA PN PC loadings grouped by odor
+% SUP FIG PN PC loadings grouped by odor
 figure; %25
 for i=1:10
     subplot(2,5,i)
@@ -1307,7 +1310,7 @@ for i=1:10
 end
 
 
-% DATA ORN PC loadigns grouped by odor
+% SUP FIG ORN PC loadigns grouped by odor
 figure; %26
 for i=1:10
     subplot(2,5,i)
@@ -1470,6 +1473,8 @@ acrossAllLobe=NaN*zeros(1,flyNum);
 allFlies=1:(flyNum);
 
 
+all_corrL = [ ] ;
+all_corrR = [ ] ;
 for j=1:(flyNum)
     
     ltemps=find(glombyodorflies==(j));
@@ -1484,9 +1489,13 @@ for j=1:(flyNum)
     % calculate within-fly distances
     if length(lcurr)>1
         withinLLobe(j)=sqrt(sum((co(lcurr(1),1:pcstouse)-co(lcurr(2),1:pcstouse)).^2));
+        corrLtemp = corrcoef(co(lcurr(1),1:pcstouse), co(lcurr(2),1:pcstouse));
+        all_corrL = [all_corrL corrLtemp(1,2)];
     end
     if length(rcurr)>1
         withinRLobe(j)=sqrt(sum((co(rcurr(1),1:pcstouse)-co(rcurr(2),1:pcstouse)).^2));
+        corrRtemp = corrcoef(co(rcurr(1),1:pcstouse), co(rcurr(2),1:pcstouse));
+        all_corrR = [all_corrR corrRtemp(1,2)];
     end
     if length(lcurr)>0 && length(rcurr)>0
         withinDifferentLobe(j)=0;
