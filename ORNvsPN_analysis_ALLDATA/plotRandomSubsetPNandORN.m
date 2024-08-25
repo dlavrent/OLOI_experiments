@@ -2376,3 +2376,33 @@ set(gca,'FontSize',15)
 
 
 
+figure;
+ORNtoboxplot=[withinlobeO withinacrossO(:) acrossallO(:)];
+PNtoboxplot=[withinlobe withinacross(:) acrossall(:)];
+combined=[ORNtoboxplot(:); PNtoboxplot(:)];
+
+groupings=[];
+groupings=[groupings 1*ones(1,flyNumO)];
+groupings=[groupings 2*ones(1,flyNumO)];
+groupings=[groupings 3*ones(1,flyNumO)];
+groupings=[groupings 4*ones(1,flyNum)];
+groupings=[groupings 5*ones(1,flyNum)];
+groupings=[groupings 6*ones(1,flyNum)];
+
+colors=[ocolor; ocolor; ocolor; pcolor; pcolor; pcolor];
+
+% SUP FIG across fly ORN/PN
+%figure
+boxplot(combined,groupings,'PlotStyle','compact','Colors',colors,'symbol','', ...
+    'labels',{'within lobe (ORN)', 'across lobe (ORN)', 'across fly (ORN)', ...
+              'within lobe (PN)', 'across lobe (PN)', 'across fly (PN)'})
+ylabel({'Euclidean distance in full';'coding space distance'})
+xtickangle(45)
+%set(gca,'xtick','')
+%set(gca,'ytick','')
+box on
+axis([0.5 6.5 0 7])
+set(gca,'FontSize',15)
+
+% Mann-Whitney U-test
+ranksum(withinacrossO(:), withinacross(:))
