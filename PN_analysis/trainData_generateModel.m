@@ -278,13 +278,23 @@ end
 % remove D
 gNames(1)=[];
 responsesNoResponseRemoved(1:13,:)=[];
-% % fill nans with mean
-for i=1:size(responsesNoResponseRemoved,1)
-    for j=1:size(responsesNoResponseRemoved,2)
-        if isnan(responsesNoResponseRemoved(i,j))
-            responsesNoResponseRemoved(i,j)=nanmean(responsesNoResponseRemoved(i,:));
+
+
+impute_with_mean = true;
+
+if impute_with_mean
+    % % fill nans with mean
+    for i=1:size(responsesNoResponseRemoved,1)
+        for j=1:size(responsesNoResponseRemoved,2)
+            if isnan(responsesNoResponseRemoved(i,j))
+                responsesNoResponseRemoved(i,j)=nanmean(responsesNoResponseRemoved(i,:));
+            end
         end
     end
+else
+    D.data = responsesNoResponseRemoved';   
+    [D, als_data] = avg_als_impute(D, 1000);
+    responsesNoResponseRemoved = D.dataavg';
 end
 
 % fill missing values with linear interpolation
