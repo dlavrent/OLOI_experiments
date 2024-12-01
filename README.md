@@ -3,7 +3,7 @@
 >
 > de Bivort Lab
 
-Experimental data and analysis scripts for *Neural correlates of individual odor preference in **Drosophila***.
+Experimental data and analysis scripts for *A neural correlate of individual odor preference in **Drosophila***.
 
 This GitHub repository contains raw behavioral and 2-photon calcium data, along with MATLAB scripts that generate the figures. Mappings between MATLAB scripts and figure panels are listed at the above link. A complete repository, with large raw microscopy images too large for sharing via GitHub, is available by contacting the authors.
 
@@ -17,6 +17,6 @@ A brief walkthrough of the directories in this repository:
 
 **IHC/** contains Brp-Short immunohistochemistry analysis
 
-**rho_signal_inference/** contains a Python script that runs simulations to infer the extent of latent neural predictor - latent behavior correlation based on the calcium/Brp-Short linear models
+**r2_latent_inference/** contains Python scripts that run simulations to infer the extent of latent neural predictor - latent behavior correlation based on the calcium/Brp-Short linear models
 
 

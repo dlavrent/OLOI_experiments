@@ -382,17 +382,17 @@ for i in range(n_hist_bins):
 resvals = (cnt_arr.T * cb_hist_fracs).T.sum(0)
 resvals /= np.trapz(resvals, x=my_rhos)
 
-drho = my_rhos[1] - my_rhos[0]
 
-my_cdf = np.cumsum(resvals)/sum(resvals)
+inferred_pdf_r2 = resvals
+inferred_cdf_r2 = np.cumsum(inferred_pdf_r2)/sum(resvals)
 
 
 # quantiles
 qs = [0.05, 0.5, 0.95]
 for q in qs:
-    where_cutoff = np.where(my_cdf <= q)[0][-1]
-    rho_at_cutoff = my_rhos[where_cutoff]
-    print('{:0>2} percentile: rho = {:.2f}'.format(q, rho_at_cutoff))
+    where_cutoff = np.where(inferred_cdf_r2 <= q)[0][-1]
+    r2_at_cutoff = my_rhos[where_cutoff]**2
+    print('{:0>2} percentile: r^2 latent = {:.2f}'.format(q, r2_at_cutoff))
     
     
 fig, axs = plt.subplots(2, 2, figsize=(6, 6), 
@@ -418,7 +418,7 @@ for i in range(1, 10):
     next_pctile_rsquared_maxes = np.quantile(calculated_rpredictorb2s, cur_pctile + 0.1, axis=0)        
     
     if i < 10:
-        ax0.fill_betweenx(my_rhos, 
+        ax0.fill_betweenx(my_rhos**4, 
                          x1 = cur_pctile_rsquared_maxes, 
                          x2 = next_pctile_rsquared_maxes, 
                          color=my_clr, lw=0, alpha=0.55)
@@ -427,7 +427,7 @@ for i in range(1, 10):
         #print(i, maxval)
         plot_maxx = np.max([plot_maxx, maxval])
 
-ax0.plot(cur_median_rpredictorb2s, my_rhos, c='k')#, label='median', c='k')
+ax0.plot(cur_median_rpredictorb2s, my_rhos**4, c='k')#, label='median', c='k')
 #cur_ax.legend(loc='upper left', bbox_to_anchor=(1.03, 1), borderaxespad=0)
 
 ax0.set_ylim(0, 1)
@@ -449,7 +449,7 @@ ax1.axvline(R2_cb, c='k', ls='--', label=r'$R^2=$' + '{:.2f}'.format(R2_cb))
 #ax1.set_xlabel(r'$R^2$ of bootstrapped data')
 
 
-ax0.set_ylabel(r'$\rho_{signal}$')
+ax0.set_ylabel(r'$R^2_{latent}$')
 ax1.set_xlabel(r'$R^2_{c,b}$')
 ax1.set_ylabel('')
 ax1.set_yticks([])
@@ -461,27 +461,27 @@ ax2.set_xticks([])
 axs[1,1].axis('off')
 
 
-ax2.plot(resvals, my_rhos, color=predictor_color, lw=2)
-ax2.fill_betweenx(my_rhos, 0, resvals, color=predictor_color, alpha=0.4)
-ax2.set_xlim(0, 1.05*max(resvals))
+ax2.plot(inferred_pdf_r2, my_rhos**4, color=predictor_color, lw=2)
+ax2.fill_betweenx(my_rhos**4, 0, inferred_pdf_r2, color=predictor_color, alpha=0.4)
+ax2.set_xlim(0, 1.05*max(inferred_pdf_r2))
 
 qs = [0.05, 0.5, 0.95]
 
 
 for q in qs:
-    where_cutoff = np.where(my_cdf <= q)[0][-1]
-    rho_at_cutoff = my_rhos[where_cutoff]
+    where_cutoff = np.where(inferred_cdf_r2 <= q)[0][-1]
+    r2_at_cutoff = my_rhos[where_cutoff]**2
     #print('{:0>2} percentile: rho = {:.2f}'.format(q, rho_at_cutoff))
     ls = '--' if q == 0.5 else '-.' 
-    ax2.axhline(rho_at_cutoff, c='k', ls=ls)
+    ax2.axhline(r2_at_cutoff, c='k', ls=ls)
     
     
     
 ax0.set_title(r'simulated $R^2_{c,b}$')
 ax1.set_title(r'empirical $R^2_{c,b}$')
-ax2.set_title(r'infered $\rho_{signal}$')
+ax2.set_title(r'infered $R^2_{latent}$')
 
-plt.savefig('ORN_Brp_PC2_rho_signal.pdf', bbox_inches='tight')
+plt.savefig('ORN_Brp_PC2_r2_latent.pdf', bbox_inches='tight')
 plt.show()
 
 
